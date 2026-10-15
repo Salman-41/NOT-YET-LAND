@@ -1,0 +1,302 @@
+{
+  "VOLCANOES": [
+    {
+      "slug": "kilauea",
+      "art": "kilauea",
+      "name": "Kīlauea",
+      "display": [
+        "Kīlauea",
+        "in motion"
+      ],
+      "subtitle": "THE LIVING SURFACE",
+      "region": "HAWAIʻI / UNITED STATES",
+      "year": "2018",
+      "lat": 19.421,
+      "long": -155.287,
+      "pin": [
+        7.6,
+        38
+      ],
+      "type": "Shield volcano",
+      "headline": "The ground is never finished.",
+      "lead": "Follow a lava channel across the lower East Rift Zone and encounter a landscape altered in months.",
+      "description": "On 3 May 2018, fissures opened along Kīlauea’s lower East Rift Zone. By the time the eruption ended in September, lava had covered approximately 35.5 square kilometres. At the summit, repeated collapse events reshaped Halemaʻumaʻu.",
+      "question": "How does molten rock redraw a coastline?",
+      "interaction": "Trace the flow",
+      "module": "flow",
+      "moduleText": "This interpretive route illustrates the sequence from a new vent to established channel and the coast. It is not a measured flow map.",
+      "moduleSteps": [
+        "The vent opens",
+        "Lava finds a channel",
+        "Flow reaches the coast",
+        "New land remains"
+      ],
+      "fact": "35.5 km²",
+      "factLabel": "area covered by lava in 2018",
+      "source": "USGS 2018 multimedia release",
+      "sourceUrl": "https://www.usgs.gov/data/image-and-video-catalog-2018-summit-collapse-and-lower-east-rift-zone-eruption-kilauea-volcano",
+      "note1": "A river with a crust",
+      "note1desc": "In an established channel, the cooling surface becomes darker while incandescent lava continues moving beneath and between fragments.",
+      "note2": "Land at a cost",
+      "note2desc": "The 2018 lava flows covered roads and neighbourhoods. These are geological observations, but also records of lives and infrastructure changed."
+    },
+    {
+      "slug": "reykjanes",
+      "art": "reykjanes",
+      "name": "Reykjanes",
+      "display": [
+        "Reykjanes",
+        "unsealed"
+      ],
+      "subtitle": "THE FRACTURE",
+      "region": "ICELAND / NORTH ATLANTIC",
+      "year": "2023–25",
+      "lat": 63.88,
+      "long": -22.4,
+      "pin": [
+        45.2,
+        11.1
+      ],
+      "type": "Fissure system",
+      "headline": "Sometimes the mountain is a line.",
+      "lead": "Watch the geography of a rift tell a different eruption story: not a single summit, but an opening in the ground.",
+      "description": "Repeated fissure eruptions on the Reykjanes Peninsula since December 2023 have made the region a remarkable location for observing rifting, surface cracking and lava-field growth.",
+      "question": "What happens when the surface opens?",
+      "interaction": "Expose the fracture",
+      "module": "fracture",
+      "moduleText": "Alter the conceptual extent of a fissure to reveal how linear eruptions differ from a central crater. Distances are illustrative.",
+      "moduleSteps": [
+        "A line of weakness",
+        "Surface cracking",
+        "Multiple active vents",
+        "Cooling lava fields"
+      ],
+      "fact": "2023",
+      "factLabel": "start of the Sundhnúkur eruption sequence",
+      "source": "Icelandic Meteorological Office",
+      "sourceUrl": "https://en.vedur.is/about-imo/the-web/conditions/",
+      "note1": "A tectonic boundary",
+      "note1desc": "Reykjanes straddles the Mid-Atlantic Ridge, where plates diverge and magma can move along fissure systems.",
+      "note2": "More than a single event",
+      "note2desc": "The landscape evolves through repeated episodes. One photograph cannot communicate the succession of new openings and flows."
+    },
+    {
+      "slug": "st-helens",
+      "art": "st-helens",
+      "name": "Mount St. Helens",
+      "display": [
+        "Mount St.",
+        "Helens"
+      ],
+      "subtitle": "THE COLLAPSE",
+      "region": "WASHINGTON / UNITED STATES",
+      "year": "1980",
+      "lat": 46.2,
+      "long": -122.18,
+      "pin": [
+        19.8,
+        21.4
+      ],
+      "type": "Stratovolcano",
+      "headline": "The shape of what is missing.",
+      "lead": "The event of May 18, 1980 did not simply cover the landscape. It removed a large part of a mountain.",
+      "description": "The north flank collapsed during the 1980 eruption. The summit lost roughly 400 metres in height, and a horseshoe-shaped crater opened toward the north. Later eruptions built lava domes within it.",
+      "question": "Can an absence become the evidence?",
+      "interaction": "Reveal the collapse",
+      "module": "collapse",
+      "moduleText": "Adjust a simplified missing-flank overlay to understand the change in the mountain’s outline. Not a geodetic reconstruction.",
+      "moduleSteps": [
+        "Before 18 May",
+        "North-flank failure",
+        "Open crater",
+        "Dome building"
+      ],
+      "fact": "~400 m",
+      "factLabel": "approximate summit height removed in 1980",
+      "source": "Smithsonian Global Volcanism Program",
+      "sourceUrl": "https://volcano.si.edu/volcano.cfm?vn=321050",
+      "note1": "An eruption in reverse",
+      "note1desc": "Instead of only building a cone, this event reshaped its entire silhouette through landslide and lateral blast.",
+      "note2": "The record is measurable",
+      "note2desc": "USGS distributes pre-eruption and later elevation models that can support a properly aligned, quantitative terrain comparison."
+    },
+    {
+      "slug": "etna",
+      "art": "etna",
+      "name": "Etna",
+      "display": [
+        "Etna",
+        "layer by layer"
+      ],
+      "subtitle": "THE ACCUMULATION",
+      "region": "SICILY / ITALY",
+      "year": "HISTORIC",
+      "lat": 37.75,
+      "long": 14.99,
+      "pin": [
+        53.9,
+        26.6
+      ],
+      "type": "Stratovolcano",
+      "headline": "One mountain. Many surfaces.",
+      "lead": "Study a volcanic landscape assembled by successive flows, cones and fractures rather than by a single eruption.",
+      "description": "Mount Etna has built its shape through countless episodes of lava effusion, explosive activity and flank eruptions. Different deposits tell different chapters of its history.",
+      "question": "How does repeated eruption build terrain?",
+      "interaction": "Separate the layers",
+      "module": "strata",
+      "moduleText": "Select a conceptual deposit layer. Colours and thicknesses explain relative accumulation, not a measured cross-section of Etna.",
+      "moduleSteps": [
+        "Older rock foundation",
+        "Successive lava flows",
+        "Scoria and ash beds",
+        "Recent summit deposits"
+      ],
+      "fact": "Multiple",
+      "factLabel": "eruption styles and overlapping deposits",
+      "source": "Smithsonian Global Volcanism Program",
+      "sourceUrl": "https://volcano.si.edu/volcano.cfm?vn=211060",
+      "note1": "Built from repetition",
+      "note1desc": "New deposits can obscure older surfaces and change flow pathways. An eruption can both destroy and construct.",
+      "note2": "A readable archive",
+      "note2desc": "Geological mapping can identify material, age and extent—even when only a fraction of the eruption is directly observed."
+    },
+    {
+      "slug": "tajogaite",
+      "art": "tajogaite",
+      "name": "Tajogaite",
+      "display": [
+        "Tajogaite",
+        "afterwards"
+      ],
+      "subtitle": "THE AFTERMATH",
+      "region": "LA PALMA / SPAIN",
+      "year": "2021",
+      "lat": 28.61,
+      "long": -17.87,
+      "pin": [
+        45.2,
+        32.3
+      ],
+      "type": "Fissure eruption",
+      "headline": "What remains after the glow fades?",
+      "lead": "Track the geographical and human aftermath of the eruption on La Palma in 2021.",
+      "description": "The 2021 eruption on La Palma created a new cone, extensive lava fields and changed sections of the coastline. Its aftermath continues through cooling, surveying and adaptation.",
+      "question": "What does a new landscape cost?",
+      "interaction": "Reveal the new surface",
+      "module": "coast",
+      "moduleText": "Scrub an illustrative sequence of terrain covered by a lava field. The changing shapes are a concept visual, not a satellite comparison.",
+      "moduleSteps": [
+        "The eruption begins",
+        "Flows cross the slope",
+        "Coastal entry",
+        "Cooling and recovery"
+      ],
+      "fact": "2021",
+      "factLabel": "year of the Tajogaite eruption",
+      "source": "Copernicus Sentinel programme",
+      "sourceUrl": "https://dataspace.copernicus.eu/",
+      "note1": "A coastline extended",
+      "note1desc": "Lava entering the Atlantic built new coastal platforms where land and ocean meet.",
+      "note2": "Terrain and community",
+      "note2desc": "A scientific atlas should also recognise settlements, livelihoods and cultural landscapes transformed by eruptions."
+    },
+    {
+      "slug": "vesuvius",
+      "art": "vesuvius",
+      "name": "Vesuvius",
+      "display": [
+        "Vesuvius",
+        "beneath time"
+      ],
+      "subtitle": "THE BURIED WORLD",
+      "region": "NAPLES / ITALY",
+      "year": "79 CE",
+      "lat": 40.821,
+      "long": 14.426,
+      "pin": [
+        53.7,
+        24.7
+      ],
+      "type": "Stratovolcano",
+      "headline": "The ground remembers for us.",
+      "lead": "Investigate the layers left by the 79 CE eruption and how buried deposits preserve a partial record.",
+      "description": "The 79 CE eruption buried Roman settlements under ash and pyroclastic material. Geological stratigraphy and archaeology together help reconstruct its sequence and effects.",
+      "question": "What can buried layers tell us?",
+      "interaction": "Read the deposit",
+      "module": "deposit",
+      "moduleText": "Reveal a stylised stratigraphic sequence. Layer labels illustrate geological principles and are not a measured excavation section.",
+      "moduleSteps": [
+        "Early fall deposits",
+        "Thicker tephra beds",
+        "Pyroclastic deposits",
+        "Present-day surface"
+      ],
+      "fact": "79 CE",
+      "factLabel": "date of the documented Pompeii eruption",
+      "source": "Smithsonian Global Volcanism Program",
+      "sourceUrl": "https://volcano.si.edu/volcano.cfm?vn=211020",
+      "note1": "Evidence beneath the ground",
+      "note1desc": "Tephra layers, buildings and surviving accounts contain different kinds of evidence—none of them tells the whole story alone.",
+      "note2": "Reconstruction is not observation",
+      "note2desc": "Any model of the ancient landscape is interpretive. Uncertainty should remain visible in the design."
+    }
+  ],
+  "SOURCES": [
+    {
+      "title": "The 2018 Kīlauea eruption",
+      "type": "PUBLIC-DOMAIN MEDIA CATALOGUE",
+      "description": "10,334 photographs, 428 videos, metadata, chronology and physical impacts of the 2018 events.",
+      "url": "https://www.usgs.gov/data/image-and-video-catalog-2018-summit-collapse-and-lower-east-rift-zone-eruption-kilauea-volcano",
+      "author": "USGS / 2026"
+    },
+    {
+      "title": "Mount St. Helens — before and after",
+      "type": "PUBLIC-DOMAIN PHOTOGRAPHS",
+      "description": "USGS historical images documenting the loss of the summit in May 1980.",
+      "url": "https://www.usgs.gov/media/images/mount-st-helens-and-after-1980-eruption",
+      "author": "USGS"
+    },
+    {
+      "title": "Mount St. Helens — 1973 and 1983",
+      "type": "HISTORICAL LANDSAT IMAGERY",
+      "description": "Mapped satellite observations from before and after the 1980 eruption.",
+      "url": "https://www.usgs.gov/media/before-after/mount-st-helens-1973-1983",
+      "author": "USGS / LANDSAT"
+    },
+    {
+      "title": "Volcanoes of the World",
+      "type": "VOLCANIC EVENT DATABASE",
+      "description": "Location, morphology, eruption history and geological summaries for volcanoes worldwide.",
+      "url": "https://volcano.si.edu/",
+      "author": "SMITHSONIAN GVP"
+    },
+    {
+      "title": "Icelandic volcanic activity",
+      "type": "MONITORING AND REUSE TERMS",
+      "description": "Regional monitoring data and its individual licensing conditions.",
+      "url": "https://en.vedur.is/about-imo/the-web/conditions/",
+      "author": "ICELAND MET OFFICE"
+    },
+    {
+      "title": "Etna lava-field topography",
+      "type": "OPEN GEOSPATIAL DATA",
+      "description": "Research imagery and topography distributed by Italy’s volcanology institute.",
+      "url": "https://www.pi.ingv.it/banche-dati/2005-04-etna-lava-flow-data/",
+      "author": "INGV"
+    },
+    {
+      "title": "Copernicus Data Space",
+      "type": "SATELLITE OBSERVATIONS",
+      "description": "Access to Sentinel observations and Earth surface imagery.",
+      "url": "https://dataspace.copernicus.eu/",
+      "author": "EU COPERNICUS"
+    },
+    {
+      "title": "Kīlauea LiDAR elevation model",
+      "type": "OPEN ELEVATION DATA",
+      "description": "Detailed airborne elevation survey suitable for a future real-terrain 3D implementation.",
+      "url": "https://www.usgs.gov/data/digital-elevation-model-klauea-volcano-hawaii-based-july-2019-airborne-lidar-surveys",
+      "author": "USGS"
+    }
+  ]
+}
