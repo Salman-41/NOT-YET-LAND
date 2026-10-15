@@ -1,0 +1,10 @@
+import { c, ArrowLink, Kicker, SourceReference } from '../components/ui';
+import { Comparison } from '../components/Comparison';
+import { SOURCES } from '../data/volcanoes';
+export default function Evidence() {
+  return <div className={c('view', 'evidence')}><div className={c('evidence-head')}><div><Kicker>The evidence room / 001–008</Kicker><h1>The ground<br /><em>on record.</em></h1></div><p className={c('support')}>A beautiful image can show an event. Evidence lets us ask what changed, when it changed, and how we know.</p></div>
+    <div className={c('evidence-feature')}><Comparison /><div className={c('evidence-feature-copy')}><div><div className={c('mono')}>FIG. 03 — EXPLORING CHANGE</div><h2>Two images.<br />One question.</h2><p className={c('bodycopy')}>Move the divider to explore the comparison interaction. The visuals are original concept artwork, <b>not</b> aligned USGS survey images. A scientific release would use genuine dated, georeferenced pairs.</p></div><ArrowLink to="https://www.usgs.gov/media/before-after/mount-st-helens-1973-1983">View actual USGS imagery</ArrowLink></div></div>
+    <section className={c('source-list')}><Kicker>Provenance / Click through to the original</Kicker><h2>Nothing without<br /><em>a source.</em></h2>{SOURCES.map((source, index) => <SourceReference key={source.url} source={source} index={index} />)}</section>
+    <div className={c('evidence-note')}><div className={c('note')}><Kicker>Scientific transparency</Kicker><h3>Observation ≠ reconstruction.</h3><p>Measurements, simulations and artistic diagrams are different kinds of information. Every illustration in this design is marked as a concept model, with genuine publication links provided separately.</p></div><div className={c('note')}><Kicker>Media & licensing</Kicker><h3>Open does not mean unrestricted.</h3><p>USGS data releases may be public domain or CC0. Other agencies, datasets and individual photographs can have different license conditions. Check the specific asset before production use.</p></div></div>
+  </div>;
+}

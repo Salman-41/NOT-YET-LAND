@@ -1,0 +1,9 @@
+node_modules/
+build/
+.react-router/
+test-results/
+playwright-report/
+.env
+.env.*
+!.env.example
+Designs/reference/
