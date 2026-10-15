@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,8 +6,10 @@ import { c } from './ui';
 
 export function RouteMotion() {
   const progress = useRef<HTMLDivElement>(null);
+  const [announcement, setAnnouncement] = useState('');
   const { pathname } = useLocation();
   useEffect(() => {
+    setAnnouncement(document.title);
     gsap.registerPlugin(ScrollTrigger);
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     const context = gsap.context(() => {
@@ -16,5 +18,5 @@ export function RouteMotion() {
     });
     return () => context.revert();
   }, [pathname]);
-  return <div ref={progress} className={c('progress', 'scroll-progress')} aria-hidden="true" />;
+  return <><div ref={progress} className={c('progress', 'scroll-progress')} aria-hidden="true" /><div className={c('visually-hidden')} aria-live="polite" aria-atomic="true">{announcement}</div></>;
 }

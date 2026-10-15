@@ -119,7 +119,7 @@ export default function Atlas() {
       </div>
 
       <div className={c('atlas-after', 'mono')}>
-        <span id="atlas-map-note" role="status">{mapUnavailable ? 'Interactive map unavailable. The illustration and all field selections remain available.' : mapActive ? 'Conceptual artwork, not a georeferenced basemap. Drag to pan; pinch, + or − to zoom.' : 'Locations are approximate on an illustrated projection.'}</span>
+        <span id="atlas-map-note" aria-live="polite">{mapUnavailable ? 'Interactive map unavailable. The illustration and all field selections remain available.' : mapActive ? 'Conceptual artwork, not a georeferenced basemap. Drag to pan; pinch, + or − to zoom.' : 'Locations are approximate on an illustrated projection.'}</span>
         <span>All six field sites are explored individually / 2026</span>
       </div>
     </div>

@@ -1,6 +1,6 @@
 # Dependency compatibility
 
-Verified on 15 October 2026 using the published npm package manifests, the local npm cache, and the primary documentation linked below. All direct dependencies are pinned to exact stable versions; no alpha, beta, canary, or experimental dependency is selected.
+Verified on 15 October 2026 using the published npm package manifests, the local npm cache, and the primary documentation linked below. All direct dependencies are pinned to exact stable versions; no direct alpha, beta, canary, or experimental dependency is selected.
 
 ## Selected versions
 
@@ -21,7 +21,9 @@ Verified on 15 October 2026 using the published npm package manifests, the local
 | `@types/react`, `@types/react-dom`, `@types/node` | `19.3.0`, `19.3.0`, `22.20.4` | Match the React and supported Node majors. |
 | `isbot` | `5.2.2` | Explicit framework build dependency; prevents React Router from starting an implicit install. [Package](https://www.npmjs.com/package/isbot) |
 
-No dependency compatibility overrides or legacy peer-dependency flags are used. The supported development/build runtime is Node 22.12+ with npm 10.8.2+; `camera-controls` and the MapLibre style-spec's JSON linter require Node 22, despite some parent packages advertising broader engine ranges.
+No dependency compatibility overrides or legacy peer-dependency flags are used. The supported development/build runtime is Node 22.12+ with npm 11.21.1+; `camera-controls` and the MapLibre style-spec's JSON linter require Node 22, despite some parent packages advertising broader engine ranges. npm 11 resolves the optional test-tool peer graph that triggered an internal npm 10 resolver error.
+
+The framework's Babel compiler transitively requires `gensync@1.0.0-beta.2`, its established published dependency. This is the only pre-release package in the lockfile; replacing it would require overriding Babel's supported compiler dependency.
 
 The checked-in lockfile is the authoritative transitive dependency resolution. These pins prioritize a reproducible, compatible foundation rather than automatically selecting a new major release from `latest`.
 
@@ -52,10 +54,16 @@ Primary source: [React Router pre-rendering](https://reactrouter.com/how-to/pre-
 
 ## Runtime and browser boundaries
 
-- The host's initial Node `20.19.2` is older than the supported complete dependency graph. Validation uses an isolated stable Node 22 installation and npm `10.9.4`, without changing the system toolchain. `.nvmrc` and `.node-version` select Node 22; `packageManager` records npm 10.9.4. See the implementation report for the executed build and test results.
+- The host's initial Node `20.19.2` is older than the supported complete dependency graph. Validation uses isolated stable Node `22.23.3` and npm `11.21.1`, without changing the system toolchain. `.nvmrc` and `.node-version` select Node 22; `packageManager` records npm 11.21.1. See the implementation report for the executed build and test results.
 - Keep one shared R3F scene host and render only the active experience; do not create a Canvas in each editorial section. MapLibre owns a separate renderer only while its atlas instrument is active.
 - Treat conceptual terrain as illustration. Do not label a procedural mesh or decorative raster as measured elevation data.
 - The initial HTML, navigation, text, native form controls, and original artwork must work without WebGL. WebGL checks and failures should preserve those fallbacks.
 - GSAP effects should use scoped cleanup and respect `prefers-reduced-motion`. Use ordinary document scrolling.
 
 Package manifest compatibility does not replace runtime verification. Tests and the production pre-render build validate the selected versions together.
+
+## Dependency audit
+
+The final installed lockfile passed `npm audit` on 15 October 2026 with **0 known vulnerabilities**, including development dependencies (98 production and 173 development dependency entries; 270 total entries including categories that overlap). The audit prompted the patched React Router, MapLibre, and Vitest selections above. This is a point-in-time advisory check, not a guarantee against future vulnerabilities.
+
+npm 11 explicitly approves the known `esbuild@0.25.12` build installation script in package metadata. No blanket installation-script permission is used.

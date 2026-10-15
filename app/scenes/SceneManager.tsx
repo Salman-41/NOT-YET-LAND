@@ -1,4 +1,4 @@
-import { Component, lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
+import { Component, lazy, Suspense, useEffect, useId, useState, type ReactNode } from 'react';
 import { useArchiveStore } from '../state/archive';
 
 const TerrainCanvas = lazy(() => import('./TerrainCanvas'));
@@ -27,13 +27,17 @@ class SceneBoundary extends Component<{ fallback: ReactNode; children: ReactNode
  */
 export function SceneManager({ children, fallback, label }: { children: ReactNode; fallback: ReactNode; label: string }) {
   const renderer = useArchiveStore(s => s.renderer);
+  const activeSceneId = useArchiveStore(s => s.activeSceneId);
   const setRenderer = useArchiveStore(s => s.setRenderer);
+  const setTerrainScene = useArchiveStore(s => s.setTerrainScene);
+  const id = useId();
   const [supported, setSupported] = useState(false);
   useEffect(() => { setSupported(hasWebGL()); }, []);
-  useEffect(() => () => { if (useArchiveStore.getState().renderer === 'terrain') setRenderer('none'); }, [setRenderer]);
+  useEffect(() => () => { if (useArchiveStore.getState().activeSceneId === id) setRenderer('none'); }, [id, setRenderer]);
+  const active = renderer === 'terrain' && activeSceneId === id;
   return <section aria-label={label}>
-    {supported && renderer !== 'terrain' && <button type="button" onClick={() => setRenderer('terrain')}>Explore the conceptual 3D study</button>}
-    {renderer === 'terrain' && supported ? <>
+    {supported && !active && <button type="button" onClick={() => setTerrainScene(id)}>Explore the conceptual 3D study</button>}
+    {active && supported ? <>
       <button type="button" onClick={() => setRenderer('none')}>Return to illustration</button>
       <SceneBoundary fallback={fallback}><Suspense fallback={fallback}><TerrainCanvas>{children}</TerrainCanvas></Suspense></SceneBoundary>
     </> : fallback}
