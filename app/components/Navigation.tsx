@@ -14,15 +14,22 @@ export function Navigation() {
   const setOpen = useArchiveStore(s => s.setMenuOpen);
   const toggle = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
+  const wasOpen = useRef(false);
   const light = ['/atlas', '/evidence', '/subsurface'].includes(pathname);
   useEffect(() => { setOpen(false); }, [pathname, setOpen]);
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      // Restore focus after React makes the header trigger visible again.
+      if (wasOpen.current) toggle.current?.focus({ preventScroll: true });
+      wasOpen.current = false;
+      return;
+    }
+    wasOpen.current = true;
     const oldOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     const focusTimer = setTimeout(() => panel.current?.querySelector<HTMLAnchorElement>('a')?.focus(), 0);
     function keydown(e: KeyboardEvent) {
-      if (e.key === 'Escape') { setOpen(false); toggle.current?.focus(); }
+      if (e.key === 'Escape') setOpen(false);
       if (e.key === 'Tab') {
         const items = Array.from(panel.current?.querySelectorAll<HTMLElement>('a, button') ?? []);
         const index = items.indexOf(document.activeElement as HTMLElement);
@@ -39,9 +46,9 @@ export function Navigation() {
       <nav className={c('desktopnav')} aria-label="Main navigation">{[['/', 'Index'], ['/atlas', 'Atlas'], ['/expeditions', 'Expeditions'], ['/evidence', 'Evidence']].map(([to, label]) => <NavLink key={to} to={to} end={to === '/'} className={({ isActive }) => c((isActive || (to === '/expeditions' && pathname.startsWith('/expedition/'))) && 'active')}>{label}</NavLink>)}</nav>
       <button ref={toggle} type="button" className={c('menu-toggle')} aria-label="Open menu" aria-expanded={open} aria-controls="menuPanel" onClick={() => setOpen(!open)}><span className={c('menu-icon')} aria-hidden="true">+</span><span className={c('menu-label')}>MENU</span></button>
     </header>
-    {open && <button className={c('menu-backdrop')} aria-label="Close navigation" onClick={() => { setOpen(false); toggle.current?.focus(); }} tabIndex={-1} />}
+    {open && <button className={c('menu-backdrop')} aria-label="Close navigation" onClick={() => setOpen(false)} tabIndex={-1} />}
     <div ref={panel} id="menuPanel" className={c('menu-panel', open && 'open')} inert={!open} aria-hidden={!open} role={open ? 'dialog' : undefined} aria-modal={open || undefined} aria-label="Site navigation">
-      <button type="button" className={c('menu-toggle', 'panel-close')} aria-label="Close menu" onClick={() => { setOpen(false); toggle.current?.focus(); }}><span className={c('menu-icon')} aria-hidden="true">×</span><span className={c('menu-label')}>MENU</span></button>
+      <button type="button" className={c('menu-toggle', 'panel-close')} aria-label="Close menu" onClick={() => setOpen(false)}><span className={c('menu-icon')} aria-hidden="true">×</span><span className={c('menu-label')}>MENU</span></button>
       <div className={c('menu-meta', 'mono')}>NAVIGATION / SIX PLACES</div><nav className={c('menu-links')} aria-label="All pages">{menuItems.map(([to, label]) => <Link key={to} to={to}>{label}</Link>)}</nav>
       <div className={c('menu-bottom', 'mono')}>AN INDEPENDENT DIGITAL FIELD STUDY<br />NOT A HAZARD FORECAST</div>
     </div>

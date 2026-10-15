@@ -1,4 +1,4 @@
-import reference from './reference.json';
+import reference from './reference.json' with { type: 'json' };
 
 export type Volcano = (typeof reference.VOLCANOES)[number];
 export type Source = (typeof reference.SOURCES)[number];

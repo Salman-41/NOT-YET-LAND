@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState, type ComponentType } from 'react';
 import { ArrowLink, c, Kicker } from '../components/ui';
 import { expeditionPath, searchVolcanoes, VOLCANOES } from '../data/volcanoes';
 import { useArchiveStore } from '../state/archive';
@@ -9,7 +9,7 @@ function UnavailableMap({ onUnavailable }: AtlasMapProps) {
   return null;
 }
 
-const AtlasMap = lazy(() => import('../scenes/AtlasMap').catch(() => ({ default: UnavailableMap })));
+const AtlasMap = lazy<ComponentType<AtlasMapProps>>(() => import('../scenes/AtlasMap').catch(() => ({ default: UnavailableMap })));
 
 export default function Atlas() {
   const selectedSlug = useArchiveStore(state => state.selectedSlug);

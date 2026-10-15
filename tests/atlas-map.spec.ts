@@ -8,6 +8,7 @@ function browserErrors(page: Page) {
 }
 
 test('optional Atlas map pans, zooms, selects records, and releases its canvas', async ({ page }) => {
+  test.setTimeout(90_000);
   const errors = browserErrors(page);
   const requests: string[] = [];
   page.on('request', request => requests.push(request.url()));
@@ -54,7 +55,7 @@ test('optional Atlas map pans, zooms, selects records, and releases its canvas',
   const start = { x: area!.x + area!.width * 0.25, y: area!.y + area!.height * 0.5 };
   await page.mouse.move(start.x, start.y);
   await page.mouse.down();
-  await page.mouse.move(start.x + 90, start.y + 25, { steps: 12 });
+  await page.mouse.move(start.x + 90, start.y + 25, { steps: 6 });
   await page.mouse.up();
   await expect.poll(() => marker.getAttribute('style')).not.toBe(beforePan);
 

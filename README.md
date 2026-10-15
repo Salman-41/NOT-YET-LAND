@@ -4,7 +4,7 @@
 
 ## Run
 
-Use Node 22.12+ and npm 10.9.4. `.nvmrc` and `.node-version` record the supported Node 22 toolchain.
+Use Node 22.12+ and npm 11.21.1. `.nvmrc` and `.node-version` record the supported Node 22 toolchain.
 
 ```sh
 npm ci
