@@ -1,0 +1,107 @@
+{
+  "sourceArchive": "Designs/NOT_YET_LAND_V02_full_design.zip",
+  "archiveSha256": "8d0d6d9ba7e38dc70e23fdd1d1116564898584cb45a467c412c895cb24fa9d2f",
+  "algorithm": "sha256",
+  "assets": {
+    "etna-detail.webp": {
+      "sha256": "9d63228a51d6659903cf7bd5771110ba4702587262c452ea1cbadd34f7234f76",
+      "bytes": 8296,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/etna-detail.webp"
+    },
+    "etna.webp": {
+      "sha256": "7c33dac1f686b72ce4b22073be2290f44742a6b8c36f64e20de88f0deb9d8519",
+      "bytes": 16912,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/etna.webp"
+    },
+    "etna_terrain.svg": {
+      "sha256": "2cd492394c2157ff9d2d469225464ec11f4947d743c13ed98c97bb65943dffa8",
+      "bytes": 129533,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/etna_terrain.svg"
+    },
+    "kilauea-detail.webp": {
+      "sha256": "955f665900d6aa09429007b51185fd57862b0bc279a892b7d62174f2b1eb54c6",
+      "bytes": 8308,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/kilauea-detail.webp"
+    },
+    "kilauea.webp": {
+      "sha256": "b6d4aba9e7da00d1c2f24cdf26498b74c1541bd355b633981d974609c518218f",
+      "bytes": 16486,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/kilauea.webp"
+    },
+    "kilauea_terrain.svg": {
+      "sha256": "bd39b499d10cf03e392295e51c471cebb9337e2fb7e67ae9af1acf055367ef20",
+      "bytes": 129098,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/kilauea_terrain.svg"
+    },
+    "noise.png": {
+      "sha256": "57d829dd897da35cdd66c3f2dca4b48acff29f441aabdcecb9d74c247c9f093c",
+      "bytes": 84832,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/noise.png"
+    },
+    "reykjanes-detail.webp": {
+      "sha256": "a23a6f20ebd2cc813a15ddc854b78c5af463cbc2d5540c6150a90c0af9bc4066",
+      "bytes": 9060,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/reykjanes-detail.webp"
+    },
+    "reykjanes.webp": {
+      "sha256": "0b132bc43631f2af4c6cb4f15fae3ccede89ad7ae56acdedce00b63706348ee6",
+      "bytes": 18314,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/reykjanes.webp"
+    },
+    "reykjanes_terrain.svg": {
+      "sha256": "58fbac2efa757c22b2f460b5a74d43e36ffc2fb134c280e57ff495dfe220445d",
+      "bytes": 129812,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/reykjanes_terrain.svg"
+    },
+    "st-helens-detail.webp": {
+      "sha256": "a80b0a50ae8c11398ad4b34739aa6e3b3314398c4d1e7045cef1ae560b01b9bc",
+      "bytes": 5904,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/st-helens-detail.webp"
+    },
+    "st-helens.webp": {
+      "sha256": "88fee6b9de40e62ae3ba98f152423b884f3248df8d3a37594405f88daccb7c7c",
+      "bytes": 13422,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/st-helens.webp"
+    },
+    "st_helens_terrain.svg": {
+      "sha256": "0f3513d5660f577076ad13d3d54efcc88a6c38b58b42c707071dbe5f789daded",
+      "bytes": 128969,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/st_helens_terrain.svg"
+    },
+    "tajogaite-detail.webp": {
+      "sha256": "05932f55ebdb10b4cc7e186e959ec393e4a7e60018a9f40e9e5b32e0b1792c6b",
+      "bytes": 6120,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/tajogaite-detail.webp"
+    },
+    "tajogaite.webp": {
+      "sha256": "c9652934ef3b6d02c0bc961f3605ca0caecf9181af43ae17bf962fd5c70df992",
+      "bytes": 12246,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/tajogaite.webp"
+    },
+    "tajogaite_terrain.svg": {
+      "sha256": "a47d1c30bd7472aa61a4b08d723836e168d1351152d3dbd50eac60e642356023",
+      "bytes": 129707,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/tajogaite_terrain.svg"
+    },
+    "vesuvius-detail.webp": {
+      "sha256": "acf127cb67839f796dfbc77bef7d88cbd5eea4d5c94bbb24ce7d7f8656e1f430",
+      "bytes": 6724,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/vesuvius-detail.webp"
+    },
+    "vesuvius.webp": {
+      "sha256": "75959f1419340680852e25deb8e9bbd4f04c4d0e77e66848c0f1e5918d096eab",
+      "bytes": 13296,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/vesuvius.webp"
+    },
+    "vesuvius_terrain.svg": {
+      "sha256": "4fc1c71025ef155e498a644afbfd3fdafa536c8230aaeb020555c3d1b5c85bfc",
+      "bytes": 129096,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/vesuvius_terrain.svg"
+    },
+    "world.svg": {
+      "sha256": "3e75471137a54074b961f505ef99e1ff937a2c941cab9945090127a53d2ea368",
+      "bytes": 79976,
+      "archiveEntry": "NOT_YET_LAND_V02/assets/world.svg"
+    }
+  }
+}

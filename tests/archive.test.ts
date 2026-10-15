@@ -1,7 +1,9 @@
+import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
-import { basename, resolve } from 'node:path';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { PUBLIC_ROUTES, SOURCES, VOLCANOES, asset, expeditionPath, searchVolcanoes, terrain } from '../app/data/volcanoes';
+import assetManifest from '../docs/asset-manifest.json';
 
 describe('the curated field archive', () => {
   it('provides every requested public route exactly once, using real URLs', () => {
@@ -37,7 +39,6 @@ describe('the curated field archive', () => {
     for (const record of VOLCANOES) {
       for (const file of [asset(record.art), asset(record.art, true), terrain(record.art)]) {
         expect(existsSync(resolve('public', file.slice(1))), `${record.name}: missing ${file}`).toBe(true);
-        expect(readFileSync(resolve('public', file.slice(1))).equals(readFileSync(resolve('Designs/reference/NOT_YET_LAND_V02/assets', basename(file))))).toBe(true);
       }
       const svg = readFileSync(resolve('public', terrain(record.art).slice(1)), 'utf8');
       expect(svg).toContain('<svg');
@@ -45,6 +46,11 @@ describe('the curated field archive', () => {
     }
     expect(terrain('st-helens')).toBe('/assets/st_helens_terrain.svg');
     expect(existsSync(resolve('public/assets/world.svg'))).toBe(true);
+    for (const [filename, original] of Object.entries(assetManifest.assets)) {
+      const bytes = readFileSync(resolve('public/assets', filename));
+      expect(bytes.length, `${filename}: original file size`).toBe(original.bytes);
+      expect(createHash('sha256').update(bytes).digest('hex'), `${filename}: original artwork checksum`).toBe(original.sha256);
+    }
   });
 
   it('provides a unique, external source register with usable attribution', () => {

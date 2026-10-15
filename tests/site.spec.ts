@@ -36,6 +36,7 @@ test.describe('public archive at all six requested widths', () => {
         await page.setViewportSize({ width, height: width < 768 ? 844 : 900 });
         const response = await page.goto(route.path, { waitUntil: 'networkidle' });
         expect(response?.status()).toBe(200);
+        expect(await response?.text()).toMatch(/<h1[\s>]/);
         const heading = page.getByRole('heading', { level: 1 });
         await expect(heading).toHaveCount(1);
         await expect(heading).toBeVisible();
@@ -193,4 +194,27 @@ test('the archive stays usable with WebGL unavailable and reduced motion request
   await page.goto('/subsurface', { waitUntil: 'networkidle' });
   await page.getByRole('button', { name: 'INTERIOR / 100%', exact: true }).click();
   await expect(page.locator('#clipInterior')).toHaveAttribute('width', '1100');
+});
+
+test.describe('touch controls', () => {
+  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+
+  test('a touch visitor can select a field site and operate the two native instruments', async ({ page }) => {
+    await page.goto('/atlas', { waitUntil: 'networkidle' });
+    await page.getByRole('button', { name: 'Select Reykjanes', exact: true }).tap();
+    await expect(page.locator('#atlas-selected-record').getByRole('heading')).toHaveText('Reykjanes');
+    await page.getByRole('link', { name: 'Begin expedition' }).tap();
+    const range = page.getByRole('slider', { name: 'Expose the fracture progression' });
+    await range.scrollIntoViewIfNeeded();
+    const bounds = await range.boundingBox();
+    expect(bounds).not.toBeNull();
+    await range.tap({ position: { x: (bounds?.width ?? 200) * 0.9, y: (bounds?.height ?? 16) / 2 } });
+    await expect.poll(async () => Number(await range.inputValue())).toBeGreaterThan(1);
+    await expect(page.locator('#moduleStepCaption')).not.toHaveText('STEP 02 / CONCEPT MODEL');
+    await page.goto('/subsurface', { waitUntil: 'networkidle' });
+    await page.getByRole('button', { name: 'INTERIOR / 100%', exact: true }).tap();
+    await expect(page.locator('#clipInterior')).toHaveAttribute('width', '1100');
+    await page.getByRole('button', { name: 'SURFACE / 0%', exact: true }).tap();
+    await expect(page.locator('#clipInterior')).toHaveAttribute('width', '0');
+  });
 });

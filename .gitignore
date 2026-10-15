@@ -7,3 +7,5 @@ playwright-report/
 .env.*
 !.env.example
 Designs/reference/
+artifacts/test-results/
+artifacts/playwright-report/
