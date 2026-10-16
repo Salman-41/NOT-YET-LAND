@@ -9,3 +9,4 @@ playwright-report/
 Designs/reference/
 artifacts/test-results/
 artifacts/playwright-report/
+artifacts/spatial/debug/

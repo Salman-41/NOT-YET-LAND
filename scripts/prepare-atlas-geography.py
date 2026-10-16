@@ -7,6 +7,7 @@ Inputs remain unchanged. Output is display cartography, never an elevation model
 """
 import argparse
 import hashlib
+import gzip
 import io
 import json
 import math
@@ -174,6 +175,12 @@ def main():
     fallback.crop((0, 0, size, round(size * 1050 / 1440))).save(DEST / 'world-mercator.webp', quality=88, method=6)
     (DEST / 'world-mercator.svg').unlink(missing_ok=True)
 
+    # Precompressed, reproducible sidecars need no server content-encoding
+    # configuration. The browser explicitly decodes them with its native API.
+    geography_files = ['land-10m.geojson', 'coastline-10m.geojson', 'graticule.geojson']
+    for name in geography_files:
+        (DEST / (name + '.gz')).write_bytes(gzip.compress((DEST / name).read_bytes(), compresslevel=9, mtime=0))
+
     manifest = {
         'prepared': '2026-10-16',
         'license': 'Public domain',
@@ -181,7 +188,7 @@ def main():
         'land': {'version': land_version, 'url': 'https://naciscdn.org/naturalearth/10m/physical/ne_10m_land.zip', 'sha256': hashlib.sha256(args.land_zip.read_bytes()).hexdigest(), 'generalizationDegrees': {'global': .04, 'fieldIslands': .0025}},
         'coastline': {'version': coast_version, 'url': 'https://naciscdn.org/naturalearth/10m/physical/ne_10m_coastline.zip', 'sha256': hashlib.sha256(args.coast_zip.read_bytes()).hexdigest()},
         'relief': {'version': relief_version, 'url': 'https://naciscdn.org/naturalearth/50m/raster/SR_50M.zip', 'sha256': hashlib.sha256(args.relief_zip.read_bytes()).hexdigest(), 'sourceCRS': 'EPSG:4326', 'displayCRS': 'EPSG:3857', 'displayBounds': [-180, -MAX_LAT, 180, MAX_LAT], 'pixels': [size, size], 'meaning': 'Shaded relief cartography derived from SRTM Plus; not elevations or an eruption layer'},
-        'outputs': {name: {'bytes': (DEST / name).stat().st_size, 'sha256': hashlib.sha256((DEST / name).read_bytes()).hexdigest()} for name in ['land-10m.geojson', 'coastline-10m.geojson', 'graticule.geojson', 'relief-mercator.webp', 'world-mercator.webp']},
+        'outputs': {name: {'bytes': (DEST / name).stat().st_size, 'sha256': hashlib.sha256((DEST / name).read_bytes()).hexdigest()} for name in [*geography_files, *(name + '.gz' for name in geography_files), 'relief-mercator.webp', 'world-mercator.webp']},
     }
     (DEST / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     print(json.dumps(manifest['outputs'], indent=2))

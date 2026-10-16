@@ -91,7 +91,7 @@ export function TerrainInstrument({ id = 'terrain-study', context = 'landscape' 
     if (!requested) return;
     const abort = new AbortController();
     loadStarted.current = performance.now();
-    setStatus('loading'); setData(null);
+    setStatus('loading'); setData(null); setLoadMs(null); setMetrics(null);
     fetchTerrain(quality, abort.signal).then(value => {
       setData(value);
       setMessage('Elevation samples loaded. Preparing the measured surface…');
@@ -114,7 +114,7 @@ export function TerrainInstrument({ id = 'terrain-study', context = 'landscape' 
   }, [id]);
   const handleReady = useCallback((value: SceneMetrics) => {
     setMetrics(value); setStatus('ready');
-    setLoadMs(Math.round(performance.now() - loadStarted.current));
+    setLoadMs(previous => previous ?? Math.round(performance.now() - loadStarted.current));
     setMessage('Measured surface ready. Drag to orbit; use the field points and section controls to investigate.');
   }, []);
 
@@ -133,11 +133,13 @@ export function TerrainInstrument({ id = 'terrain-study', context = 'landscape' 
           </div>
           {active && data && <div className={styles.canvasHost}><TerrainBoundary key={attempt} onFailure={handleFailure}><Suspense fallback={null}><VolcanicScene manifest={data.manifest} heights={data.heights} grid={data.grid} section={section} mode={mode} featureId={featureId} onFeatureSelect={setFeatureId} onReady={handleReady} onContextLost={handleFailure} active={visible && documentVisible} quality={quality} /></Suspense></TerrainBoundary></div>}
           <div className={styles.stageTop}><span>{!active && mode === 'section' ? 'GENERALIZED DIAGRAM / NOT TO SCALE' : 'KĪLAUEA / SUMMIT STUDY'}</span><span>{active ? '3D / ' : 'STATIC / '}{mode === 'surface' ? 'SURFACE' : `SECTION ${section}%`}</span></div>
-          <div className={styles.stageBottom}><span>N ↑<br />{!active && mode === 'section' ? 'DIAGRAM SURFACE / ALSO SCHEMATIC' : `GEOGRAPHIC SCALE / ${data ? `${(data.manifest.widthMeters / 1000).toFixed(2)} × ${(data.manifest.depthMeters / 1000).toFixed(2)} KM` : 'SEE SOURCE RECORD'}`}</span><span>{!active && mode === 'section' ? 'VERTICAL SCALE / NOT REPRESENTATIVE' : `VERTICAL EXAGGERATION / ${data?.manifest.verticalExaggeration ?? 1.5}×`}<br />INTERIOR / SCHEMATIC, NOT DEPTH CALIBRATED</span></div>
+          <div className={styles.stageBottom}><span>{active ? 'ARCHIVED SURVEY' : mode === 'surface' ? 'N ↑' : 'GENERALIZED ANATOMY'}<br />{!active && mode === 'section' ? 'DIAGRAM SURFACE / ALSO SCHEMATIC' : `GEOGRAPHIC SCALE / ${data ? `${(data.manifest.widthMeters / 1000).toFixed(2)} × ${(data.manifest.depthMeters / 1000).toFixed(2)} KM` : 'SEE SOURCE RECORD'}`}</span><span>{!active && mode === 'section' ? 'VERTICAL SCALE / NOT REPRESENTATIVE' : `VERTICAL EXAGGERATION / ${data?.manifest.verticalExaggeration ?? 1.5}×`}<br />INTERIOR / SCHEMATIC, NOT DEPTH CALIBRATED</span></div>
+          {mode === 'section' && <div className={styles.sectionLegend}><span>UPPER EDGE / {active ? 'OBSERVED DEM' : 'SCHEMATIC SVG'}</span><span>STRATA / GENERALIZED</span><span>CONDUIT + STORAGE / INTERPRETED</span></div>}
           {ownsRenderer && status === 'loading' && <div className={styles.loading} role="status"><span />Preparing the terrain study…</div>}
           {!active && <div className={styles.staticCaption}><span>{status === 'error' ? 'STATIC FALLBACK' : 'ARCHIVED ELEVATION / HILLSHADE'}</span><button type="button" onClick={requestScene}>{status === 'error' ? 'Try the 3D study again' : 'Load the 3D study'} <b aria-hidden="true">↗</b></button></div>}
         </div>
         <div className={styles.status} aria-live="polite">{message}</div>
+        <div className={styles.observation}><span>OBSERVATION LOG / {selected.label.toUpperCase()}</span><strong>{data ? <>{Math.round(sampleElevation(data.manifest, data.grid, data.heights, selected)).toLocaleString()}<em> m</em></> : 'A surface record.'}</strong><p>{data ? 'An approximate elevation sampled from this archived DEM. The height encoding preserves source units; the visual relief is exaggerated by 1.5×.' : 'The hillshade comes from the archived elevation crop. Load the 3D study to sample the retained height grid.'}</p></div>
       </div>
       <aside className={styles.controls} aria-label="Terrain and geological section controls">
         <div className={styles.controlKicker}>FIELD INSTRUMENT / KĪLAUEA</div>

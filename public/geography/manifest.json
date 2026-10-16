@@ -47,6 +47,18 @@
       "bytes": 23328,
       "sha256": "f819d9d206b915e3271e04b0cb30b608eb106c430a3f32cce9d733e24c4c8d70"
     },
+    "land-10m.geojson.gz": {
+      "bytes": 565087,
+      "sha256": "ceee1d8d9eb3bc4d2cb7fbc217ce5e93ca19a2d9c14d8a9ad35a837771155fdc"
+    },
+    "coastline-10m.geojson.gz": {
+      "bytes": 481184,
+      "sha256": "40f66c44a218899a413f460d434a1809623d672792c3a95e4762a43d47d1265c"
+    },
+    "graticule.geojson.gz": {
+      "bytes": 5553,
+      "sha256": "7aefd8cb68a1a15a8a8ab46724e83915f5637ad9e7af458a6321f8a0efc3f055"
+    },
     "relief-mercator.webp": {
       "bytes": 157246,
       "sha256": "1751cf6d58e59b36753d807db3b162084aaa65de5c202f26bfa0e5bd7cb29e32"

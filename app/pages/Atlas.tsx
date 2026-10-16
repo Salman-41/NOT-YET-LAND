@@ -96,6 +96,7 @@ export default function Atlas() {
         </aside>
 
         <section className={`${c('atlas-graphic')} ${spatial.stage}`} aria-label="Geographic world atlas with six selectable volcanic landscapes" aria-describedby="atlas-map-note">
+          <div className={spatial.mapViewport}>
           <StaticAtlas covered={mapActive && mapReady} selectedSlug={selected.slug} onSelect={choose} />
           {mapActive && <Suspense fallback={null}><AtlasMap onUnavailable={handleMapUnavailable} onReady={handleMapReady} onSelect={choose} focusRequest={focusRequest} overviewToken={overviewToken} /></Suspense>}
           <div className={spatial.stageTop}><p>NOT YET LAND / GEOGRAPHIC INDEX<br />REFERENCE COORDINATES / WGS84</p><p className={spatial.scaleNote}>NATURAL EARTH<br />WEB MERCATOR</p></div>
@@ -104,7 +105,8 @@ export default function Atlas() {
             <button type="button" className={spatial.tool} aria-pressed={!mapActive} onClick={() => { setMapUnavailable(false); setMapReady(false); setRenderer(mapActive ? 'none' : 'map'); }}>{mapActive ? 'Use static map' : mapUnavailable ? 'Retry interactive map' : 'Explore map'} <span aria-hidden="true">{mapActive ? '−' : '+'}</span></button>
           </div>
           <div className={spatial.mapState}>● SIX FIELD RECORDS<br />{mapActive && mapReady ? 'DRAG TO PAN / + − TO ZOOM' : 'GEOGRAPHIC OVERVIEW'}<br />COASTLINE + SHADED RELIEF</div>
-          <div className={c('map-info')} id="atlas-selected-record" aria-live="polite" aria-atomic="true">
+          </div>
+          <div className={`${c('map-info')} ${spatial.recordPanel}`} id="atlas-selected-record" aria-live="polite" aria-atomic="true">
             <div className={c('mono', 'muted')}>FIELD RECORD {String(selectedIndex + 1).padStart(2, '0')} / {selected.region}</div>
             <h2>{selected.name}</h2>
             <p className={c('bodycopy')}>{selected.lead}</p>

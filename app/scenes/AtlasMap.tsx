@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Map, Marker, NavigationControl, setWorkerUrl, type PaddingOptions } from 'maplibre-gl';
+import { Map, Marker, NavigationControl, setWorkerUrl, type PaddingOptions, type GeoJSONSourceSpecification } from 'maplibre-gl';
 import { gsap } from 'gsap';
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -32,6 +32,7 @@ export default function AtlasMap({ onUnavailable, onReady, onSelect, focusReques
     let map: Map | undefined;
     let disposed = false;
     let failed = false;
+    const abort = new AbortController();
     const markers: Marker[] = [];
     const unavailable = () => {
       if (disposed || failed) return;
@@ -55,7 +56,13 @@ export default function AtlasMap({ onUnavailable, onReady, onSelect, focusReques
     container.addEventListener('pointerdown', interrupt, true);
     container.addEventListener('keydown', interrupt, true);
 
-    try {
+    const initialize = async () => { try {
+      const [land, coastline, graticule] = await Promise.all([
+        loadLocalGeography('/geography/land-10m.geojson', abort.signal),
+        loadLocalGeography('/geography/coastline-10m.geojson', abort.signal),
+        loadLocalGeography('/geography/graticule.geojson', abort.signal),
+      ]);
+      if (disposed) return;
       setWorkerUrl(workerUrl);
       const initial = overview(container.clientWidth, container.clientHeight);
       map = new Map({
@@ -63,9 +70,9 @@ export default function AtlasMap({ onUnavailable, onReady, onSelect, focusReques
         style: {
           version: 8, projection: { type: 'mercator' },
           sources: {
-            land: { type: 'geojson', data: '/geography/land-10m.geojson', tolerance: .6 },
-            coastline: { type: 'geojson', data: '/geography/coastline-10m.geojson', tolerance: .6 },
-            graticule: { type: 'geojson', data: '/geography/graticule.geojson' },
+            land: { type: 'geojson', data: land, tolerance: .6 },
+            coastline: { type: 'geojson', data: coastline, tolerance: .6 },
+            graticule: { type: 'geojson', data: graticule },
             relief: { type: 'image', url: '/geography/relief-mercator.webp', coordinates: [[-180, 85.05112878], [180, 85.05112878], [180, -85.05112878], [-180, -85.05112878]] },
           },
           layers: [
@@ -91,7 +98,7 @@ export default function AtlasMap({ onUnavailable, onReady, onSelect, focusReques
       map.addControl(new NavigationControl({ showCompass: false }), 'top-right');
       map.getCanvas().setAttribute('aria-label', 'Geographic field atlas. Arrow keys pan; plus and minus zoom. Select a volcano from a map marker or the field list.');
       map.once('load', () => {
-        if (disposed || !map) return;
+        if (disposed || failed || !map) return;
         buttons.current = VOLCANOES.map((site, index) => {
           const location = ATLAS_SITES[site.slug];
           const element = document.createElement('button');
@@ -118,10 +125,11 @@ export default function AtlasMap({ onUnavailable, onReady, onSelect, focusReques
         });
         setReady(true); onReady();
       });
-    } catch { unavailable(); }
+    } catch { if (!disposed && !abort.signal.aborted) unavailable(); } };
+    void initialize();
 
     return () => {
-      disposed = true; motion.current?.kill(); intersection.disconnect();
+      disposed = true; abort.abort(); motion.current?.kill(); intersection.disconnect();
       document.removeEventListener('visibilitychange', visibilityChanged);
       container.removeEventListener('pointerdown', interrupt, true);
       container.removeEventListener('keydown', interrupt, true);
@@ -140,7 +148,8 @@ export default function AtlasMap({ onUnavailable, onReady, onSelect, focusReques
     const location = ATLAS_SITES[focusRequest.slug];
     if (!location) return;
     const width = map.getContainer().clientWidth;
-    const padding = width < 600 ? { top: 95, right: 35, bottom: 230, left: 35 } : { top: 110, right: 350, bottom: 100, left: 80 };
+    const stacked = window.matchMedia('(max-width:650px)').matches;
+    const padding = stacked ? { top: 110, right: 35, bottom: 70, left: 35 } : width < 600 ? { top: 95, right: 35, bottom: 300, left: 35 } : { top: 110, right: 350, bottom: 100, left: 80 };
     moveCamera(map, location.longitude, location.latitude, focusZoom[focusRequest.slug] - (width < 600 ? .5 : 0), padding, motion, visible.current);
   }, [focusRequest, ready]);
 
@@ -152,6 +161,21 @@ export default function AtlasMap({ onUnavailable, onReady, onSelect, focusReques
   }, [overviewToken, ready, focusRequest]);
 
   return <div className={styles.mapHost} data-map-ready={ready} aria-label="Natural Earth geographic map"><div ref={host} className={styles.mapSurface} /></div>;
+}
+
+type LocalGeoJSON = Exclude<NonNullable<GeoJSONSourceSpecification['data']>, string>;
+async function loadLocalGeography(url: string, signal: AbortSignal): Promise<LocalGeoJSON> {
+  const nativeGzip = typeof DecompressionStream === 'function';
+  const response = await fetch(nativeGzip ? `${url}.gz` : url, { signal });
+  if (!response.ok) throw new Error('Local geography unavailable');
+  if (!nativeGzip) return response.json() as Promise<LocalGeoJSON>;
+  const bytes = await response.arrayBuffer();
+  const signature = new Uint8Array(bytes, 0, Math.min(2, bytes.byteLength));
+  // Detect the payload rather than relying on Content-Encoding. This works
+  // with plain static files and hosts that transparently decode .gz responses.
+  if (signature[0] !== 0x1f || signature[1] !== 0x8b) return JSON.parse(new TextDecoder().decode(bytes)) as LocalGeoJSON;
+  const decoded = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return new Response(decoded).json() as Promise<LocalGeoJSON>;
 }
 
 function moveCamera(map: Map, longitude: number, latitude: number, zoom: number, padding: PaddingOptions, motion: { current: gsap.core.Tween | null }, visible: boolean) {

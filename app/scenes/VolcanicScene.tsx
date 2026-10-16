@@ -21,15 +21,15 @@ export type VolcanicSceneProps = {
   quality: 'low' | 'high';
 };
 
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(() => typeof window !== 'undefined' && window.matchMedia(query).matches);
   useEffect(() => {
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update = () => setReduced(query.matches);
-    update(); query.addEventListener('change', update);
-    return () => query.removeEventListener('change', update);
-  }, []);
-  return reduced;
+    const media = window.matchMedia(query);
+    const update = () => setMatches(media.matches);
+    update(); media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, [query]);
+  return matches;
 }
 
 function contourMaterial(manifest: TerrainManifest, plane: Plane) {
@@ -70,7 +70,7 @@ function CameraRig({ manifest, grid, heights, mode, featureId, active }: Pick<Vo
   const controls = useRef<OrbitControlsInstance>(null);
   const transition = useRef<gsap.core.Timeline | null>(null);
   const lastView = useRef('');
-  const reduced = useReducedMotion();
+  const reduced = useMediaQuery('(prefers-reduced-motion: reduce)');
   useEffect(() => {
     const orbit = controls.current;
     if (!orbit || !active) return;
@@ -104,6 +104,9 @@ function CameraRig({ manifest, grid, heights, mode, featureId, active }: Pick<Vo
 
 /** Native GPU sprites avoid nested ReactDOM roots during clipping and route teardown. */
 function FeatureMarker({ point, number, selected, onSelect }: { point: [number, number, number]; number: number; selected: boolean; onSelect: () => void }) {
+  const viewportHeight = useThree(state => state.size.height);
+  const camera = useThree(state => state.camera) as PerspectiveCamera;
+  const labelHeight = (22 / Math.max(viewportHeight, 1)) * 2 * Math.tan(camera.fov * Math.PI / 360);
   const texture = useMemo(() => {
     const canvas = document.createElement('canvas');
     canvas.width = 128; canvas.height = 80;
@@ -121,7 +124,7 @@ function FeatureMarker({ point, number, selected, onSelect }: { point: [number, 
   return <group position={[point[0], point[1] + 0.035, point[2]]}>
     <mesh rotation={[-Math.PI / 2, 0, 0]} onClick={choose}><ringGeometry args={[selected ? 0.13 : 0.09, selected ? 0.17 : 0.12, 32]} /><meshBasicMaterial color={selected ? '#f89359' : '#d7d8bf'} side={DoubleSide} depthTest={false} depthWrite={false} /></mesh>
     <mesh position={[0, 0.12, 0]} onClick={choose}><sphereGeometry args={[0.065, 12, 12]} /><meshBasicMaterial color={selected ? '#ff9a60' : '#e5e3cd'} depthTest={false} depthWrite={false} /></mesh>
-    <sprite position={[0, 0.34, 0]} scale={[0.32, 0.2, 1]} onClick={choose}><spriteMaterial map={texture} depthTest={false} depthWrite={false} transparent /></sprite>
+    <sprite position={[0, 0.34, 0]} scale={[labelHeight * 1.6, labelHeight, 1]} onClick={choose}><spriteMaterial map={texture} sizeAttenuation={false} depthTest={false} depthWrite={false} transparent /></sprite>
   </group>;
 }
 
@@ -218,10 +221,11 @@ function GeologicalModel(props: VolcanicSceneProps) {
 
 export default function VolcanicScene(props: VolcanicSceneProps) {
   const low = props.quality === 'low';
+  const smallScreen = useMediaQuery('(max-width: 767px)');
   return <div style={{ position: 'absolute', inset: 0 }}>
     <Canvas
       frameloop={props.active ? 'demand' : 'never'}
-      dpr={low ? 1 : [1, 1.5]}
+      dpr={low || smallScreen ? 1 : [1, 1.5]}
       camera={{ position: [7, 7, 10], fov: 42, near: 0.1, far: 90 }}
       gl={{ antialias: !low, alpha: false, powerPreference: low ? 'low-power' : 'high-performance', preserveDrawingBuffer: false }}
       onCreated={({ gl, camera }) => {
