@@ -60,3 +60,6 @@
 @font-face{font-family:'Noto Serif Display';font-style:normal;font-weight:400;font-display:swap;src:url('/fonts/NotoSerifDisplay-Regular.ttf') format('truetype')}
 @font-face{font-family:'Noto Serif Display';font-style:italic;font-weight:400;font-display:swap;src:url('/fonts/NotoSerifDisplay-Italic.ttf') format('truetype')}
 .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Spatial instruments extend the approved exhibition layout. */
+.spatial-subsurface>section{margin-left:-4.59%;margin-right:-4.59%}
+@media(max-width:800px){.spatial-subsurface>section{margin-left:-5.56%;margin-right:-5.56%}}

@@ -1,0 +1,59 @@
+{
+  "prepared": "2026-10-16",
+  "license": "Public domain",
+  "licenseUrl": "https://www.naturalearthdata.com/about/terms-of-use/",
+  "land": {
+    "version": "5.1.1",
+    "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_land.zip",
+    "sha256": "e547d749445eaa0964aba76738090ec88f5e63c4585122170f98c67a7ea922dc",
+    "generalizationDegrees": {
+      "global": 0.04,
+      "fieldIslands": 0.0025
+    }
+  },
+  "coastline": {
+    "version": "5.0.0-pre9",
+    "url": "https://naciscdn.org/naturalearth/10m/physical/ne_10m_coastline.zip",
+    "sha256": "bfa04cdbcbef07ef90dfca1dabb48062eca29900a113df0f389303e255484017"
+  },
+  "relief": {
+    "version": "2.0.0",
+    "url": "https://naciscdn.org/naturalearth/50m/raster/SR_50M.zip",
+    "sha256": "ff810f5f2747463fd8ffa612b23e5f5e5d593a345218976872b6749610976ab7",
+    "sourceCRS": "EPSG:4326",
+    "displayCRS": "EPSG:3857",
+    "displayBounds": [
+      -180,
+      -85.0511287798066,
+      180,
+      85.0511287798066
+    ],
+    "pixels": [
+      2048,
+      2048
+    ],
+    "meaning": "Shaded relief cartography derived from SRTM Plus; not elevations or an eruption layer"
+  },
+  "outputs": {
+    "land-10m.geojson": {
+      "bytes": 1553623,
+      "sha256": "a698150444febd358ffd8fadae028405c3102aef3f7d7bf9da5b73a9ab1db627"
+    },
+    "coastline-10m.geojson": {
+      "bytes": 1303289,
+      "sha256": "d2bc984ad569cfd01b5b1cd67638ca940b7a3e5ad738bf73b674d96aebe64e04"
+    },
+    "graticule.geojson": {
+      "bytes": 23328,
+      "sha256": "f819d9d206b915e3271e04b0cb30b608eb106c430a3f32cce9d733e24c4c8d70"
+    },
+    "relief-mercator.webp": {
+      "bytes": 157246,
+      "sha256": "1751cf6d58e59b36753d807db3b162084aaa65de5c202f26bfa0e5bd7cb29e32"
+    },
+    "world-mercator.webp": {
+      "bytes": 221512,
+      "sha256": "c7afdfb7ea533c3d5c5d7c6b25fab073611d73944f4cb6f9b8dfa67d2bd34670"
+    }
+  }
+}

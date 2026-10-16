@@ -24,6 +24,16 @@ async function settleArtwork(page: Page) {
   });
 }
 
+async function withoutWebGL(page: Page) {
+  await page.addInitScript(() => {
+    const original = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, contextId: string, options?: unknown) {
+      if (['webgl', 'webgl2', 'experimental-webgl'].includes(contextId)) return null;
+      return (original as (this: HTMLCanvasElement, id: string, options?: unknown) => RenderingContext | null).call(this, contextId, options);
+    } as typeof original;
+  });
+}
+
 test.beforeAll(async () => { await mkdir('artifacts/screenshots', { recursive: true }); });
 
 test.describe('public archive at all six requested widths', () => {
@@ -59,12 +69,13 @@ test.describe('public archive at all six requested widths', () => {
   }
 });
 
-test('atlas search, empty feedback, geographic selection, and real expedition URLs', async ({ page }) => {
+test('atlas fallback search, empty feedback, geographic selection, and real expedition URLs', async ({ page }) => {
+  await withoutWebGL(page);
   await page.goto('/atlas', { waitUntil: 'networkidle' });
   const search = page.getByRole('searchbox', { name: 'Search field sites' });
   const result = page.locator('[aria-label="Field site selection"]').getByRole('button');
   await search.fill('Kilauea');
-  await expect(page.getByRole('status')).toContainText('1 field site found');
+  await expect(page.locator('#atlas-search-status')).toContainText('1 field site found');
   await expect(result).toHaveCount(1);
   await expect(result).toContainText('Kīlauea');
   await search.fill('Etna');
@@ -73,7 +84,7 @@ test('atlas search, empty feedback, geographic selection, and real expedition UR
   await expect(page.locator('#atlas-selected-record').getByRole('heading')).toHaveText('Etna');
   await expect(page.getByRole('link', { name: 'Begin expedition' })).toHaveAttribute('href', '/expedition/etna');
   await search.fill('no site matches this query');
-  await expect(page.getByRole('status')).toContainText('No field sites found');
+  await expect(page.locator('#atlas-search-status')).toContainText('No field sites found');
   await search.fill('');
   const pin = page.getByRole('button', { name: 'Select Reykjanes', exact: true });
   await pin.click();
@@ -114,8 +125,11 @@ test('mobile navigation traps keyboard focus and Escape restores the trigger', a
 
 for (const record of VOLCANOES) {
   test(`${record.name}: the keyboard instrument reaches both named phases`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.goto(`/expedition/${record.slug}`, { waitUntil: 'networkidle' });
     const range = page.getByRole('slider', { name: `${record.interaction} progression`, exact: true });
+    await range.scrollIntoViewIfNeeded();
     await range.focus();
     await range.press('End');
     await expect(range).toHaveValue('3');
@@ -130,24 +144,48 @@ for (const record of VOLCANOES) {
   });
 }
 
-test('subsurface commands and keyboard input change the actual diagram boundary', async ({ page }) => {
+test('subsurface surface/section modes and keyboard input change the actual fallback boundary', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await withoutWebGL(page);
   await page.goto('/subsurface', { waitUntil: 'networkidle' });
-  const range = page.getByRole('slider', { name: 'Reveal percentage of the conceptual underground cross-section' });
+  const instrument = page.locator('#section-instrument');
+  const range = page.getByRole('slider', { name: 'Geological section reveal', exact: true });
+  await expect(instrument).toHaveAttribute('data-mode', 'surface');
+  await expect(instrument).toHaveAttribute('data-section', '0');
+  await expect(range).toHaveValue('0');
+  await expect(page.locator('#clipInterior')).toHaveCount(0);
+  await expect(page.getByRole('img', { name: /Hillshade calculated from the archived USGS elevation/ })).toBeVisible();
+  await page.getByRole('button', { name: 'Activate section', exact: true }).click();
+  await expect(instrument).toHaveAttribute('data-mode', 'section');
+  await expect(instrument).toHaveAttribute('data-section', '50');
   await expect(range).toHaveValue('50');
   await expect(page.locator('#clipInterior')).toHaveAttribute('width', '550');
-  await page.getByRole('button', { name: 'INTERIOR / 100%', exact: true }).click();
+  await page.getByRole('button', { name: 'Full section / 100%', exact: true }).click();
   await expect(range).toHaveValue('100');
   await expect(page.locator('#clipInterior')).toHaveAttribute('width', '1100');
   await expect(page.locator('#cutSeam')).toHaveAttribute('d', 'M1100 0V620');
   await expect(page.locator('#cutMarker')).toHaveAttribute('cx', '1100');
-  await page.getByRole('button', { name: 'SURFACE / 0%', exact: true }).click();
+  await page.getByRole('button', { name: 'Surface / 0%', exact: true }).click();
   await expect(range).toHaveValue('0');
-  await expect(page.locator('#clipInterior')).toHaveAttribute('width', '0');
+  await expect(instrument).toHaveAttribute('data-mode', 'surface');
+  await expect(instrument).toHaveAttribute('data-section', '0');
+  await expect(page.locator('#clipInterior')).toHaveCount(0);
   await range.focus();
   await range.press('ArrowRight');
   await expect(range).toHaveValue('1');
+  await expect(instrument).toHaveAttribute('data-mode', 'section');
   await expect(page.locator('#clipInterior')).toHaveAttribute('width', '11');
-  await expect(page.locator('#cutLabel')).toHaveText('SECTION OPEN / 1%');
+  await expect(page.locator('#cutValue')).toHaveText('1%');
+  await expect(range).toHaveAttribute('aria-valuetext', '1% section reveal; interior structures are interpretive');
+  await range.press('End');
+  await expect(instrument).toHaveAttribute('data-section', '100');
+  await expect(page.locator('#clipInterior')).toHaveAttribute('width', '1100');
+  await range.press('Home');
+  await expect(range).toHaveValue('0');
+  await expect(instrument).toHaveAttribute('data-mode', 'surface');
+  await expect(instrument).toHaveAttribute('data-section', '0');
+  await expect(page.locator('#clipInterior')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Surface view', exact: true })).toHaveAttribute('aria-pressed', 'true');
 });
 
 test('evidence comparison moves the visible clipping boundary and preserves its concept label', async ({ page }) => {
@@ -171,14 +209,9 @@ test('evidence comparison moves the visible clipping boundary and preserves its 
 });
 
 test('the archive stays usable with WebGL unavailable and reduced motion requested', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.addInitScript(() => {
-    const original = HTMLCanvasElement.prototype.getContext;
-    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, contextId: string, options?: unknown) {
-      if (['webgl', 'webgl2', 'experimental-webgl'].includes(contextId)) return null;
-      return (original as (this: HTMLCanvasElement, id: string, options?: unknown) => RenderingContext | null).call(this, contextId, options);
-    } as typeof original;
-  });
+  await withoutWebGL(page);
   await page.goto('/', { waitUntil: 'networkidle' });
   expect(await page.evaluate(() => document.createElement('canvas').getContext('webgl2'))).toBeNull();
   await page.getByRole('link', { name: 'Enter the atlas' }).click();
@@ -192,7 +225,10 @@ test('the archive stays usable with WebGL unavailable and reduced motion request
   const duration = await page.locator('#moduleTarget').evaluate(element => parseFloat(getComputedStyle(element).animationDuration));
   expect(duration).toBeLessThanOrEqual(0.001);
   await page.goto('/subsurface', { waitUntil: 'networkidle' });
-  await page.getByRole('button', { name: 'INTERIOR / 100%', exact: true }).click();
+  await page.getByRole('button', { name: /Load the 3D study/ }).click();
+  await expect(page.locator('#section-instrument')).toHaveAttribute('data-scene-state', 'fallback');
+  await expect(page.locator('#section-instrument')).toContainText('WebGL2 is unavailable');
+  await page.getByRole('button', { name: 'Full section / 100%', exact: true }).click();
   await expect(page.locator('#clipInterior')).toHaveAttribute('width', '1100');
 });
 
@@ -200,6 +236,7 @@ test.describe('touch controls', () => {
   test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
 
   test('a touch visitor can select a field site and operate the two native instruments', async ({ page }) => {
+    await withoutWebGL(page);
     await page.goto('/atlas', { waitUntil: 'networkidle' });
     await page.getByRole('button', { name: 'Select Reykjanes', exact: true }).tap();
     await expect(page.locator('#atlas-selected-record').getByRole('heading')).toHaveText('Reykjanes');
@@ -212,9 +249,21 @@ test.describe('touch controls', () => {
     await expect.poll(async () => Number(await range.inputValue())).toBeGreaterThan(1);
     await expect(page.locator('#moduleStepCaption')).not.toHaveText('STEP 02 / CONCEPT MODEL');
     await page.goto('/subsurface', { waitUntil: 'networkidle' });
-    await page.getByRole('button', { name: 'INTERIOR / 100%', exact: true }).tap();
+    await page.getByRole('button', { name: 'Full section / 100%', exact: true }).tap();
     await expect(page.locator('#clipInterior')).toHaveAttribute('width', '1100');
-    await page.getByRole('button', { name: 'SURFACE / 0%', exact: true }).tap();
-    await expect(page.locator('#clipInterior')).toHaveAttribute('width', '0');
+    const section = page.getByRole('slider', { name: 'Geological section reveal', exact: true });
+    await section.scrollIntoViewIfNeeded();
+    const sectionBounds = await section.boundingBox();
+    expect(sectionBounds).not.toBeNull();
+    await section.tap({ position: { x: sectionBounds!.width * 0.25, y: sectionBounds!.height / 2 } });
+    await expect.poll(async () => Number(await section.inputValue())).toBeGreaterThan(0);
+    await expect.poll(async () => Number(await section.inputValue())).toBeLessThan(100);
+    const reveal = Number(await section.inputValue());
+    await expect(page.locator('#section-instrument')).toHaveAttribute('data-mode', 'section');
+    await expect(page.locator('#clipInterior')).toHaveAttribute('width', String(reveal * 11));
+    await page.getByRole('button', { name: 'Surface / 0%', exact: true }).tap();
+    await expect(page.locator('#section-instrument')).toHaveAttribute('data-mode', 'surface');
+    await expect(page.locator('#section-instrument')).toHaveAttribute('data-section', '0');
+    await expect(page.locator('#clipInterior')).toHaveCount(0);
   });
 });

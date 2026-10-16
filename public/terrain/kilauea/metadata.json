@@ -1,0 +1,128 @@
+{
+  "id": "kilauea-summit-usgs-3dep",
+  "title": "Kīlauea summit — USGS 3DEP archived elevation",
+  "source": {
+    "title": "USGS 1/3 Arc Second n20w156 20250611",
+    "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n20w156/USGS_13_n20w156.tif",
+    "metadataUrl": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n20w156/USGS_13_n20w156.xml",
+    "publisher": "U.S. Geological Survey",
+    "license": "Public domain — USGS 3DEP",
+    "licenseUrl": "https://www.usgs.gov/3d-elevation-program/about-3dep-products-services",
+    "licenseEvidenceUrl": "https://pubs.usgs.gov/tm/11b9/tm11B9.pdf",
+    "publicationDate": "20250611",
+    "sourcePeriod": {
+      "begin": "19540101",
+      "end": "20230709"
+    },
+    "epochSummary": "Mixed source acquisitions, 1954–2023; published 2025. Not a live or single-date survey.",
+    "nativeResolutionArcSeconds": 0.3333333333333333,
+    "nativeResolutionMeters": {
+      "x": 9.725133680632378,
+      "y": 10.249726566642703
+    },
+    "sourceArtifact": {
+      "path": "data/terrain-source/kilauea/usgs-13-n20w156-kilauea-crop.tif",
+      "file": "usgs-13-n20w156-kilauea-crop.tif",
+      "bytes": 1367190,
+      "sha256": "8d3b4a52e71f449eb41e0d061a32143bdccfe4a8beb2bbd9c10d3308c94a5b85"
+    },
+    "http": {
+      "ETag": "\"d3c375f2e45bef0a9366bf16d23e662d-66\"",
+      "Last-Modified": "Wed, 11 Jun 2025 15:46:18 GMT",
+      "Content-Length": "343288327",
+      "Accept-Ranges": "bytes"
+    }
+  },
+  "bounds": {
+    "west": -155.3249583817634,
+    "south": 19.372541747061856,
+    "east": -155.24495836190286,
+    "north": 19.447541767957436
+  },
+  "crs": "EPSG:4326",
+  "sourceCrs": "EPSG:4269",
+  "widthMeters": 8402.515500066374,
+  "depthMeters": 8302.278518980589,
+  "elevation": {
+    "min": 946.0405883789062,
+    "max": 1367.1802978515625,
+    "unit": "m",
+    "datum": "North American Vertical Datum of 1988",
+    "datumNote": "Publisher reports NAVD 88. Regional datum applicability in Hawaiʻi has not been independently validated; do not use this model for survey or hazard decisions."
+  },
+  "encoding": {
+    "type": "uint16",
+    "byteOrder": "little-endian",
+    "layout": "row-major",
+    "rowZero": "north",
+    "columnZero": "west",
+    "normalizedRange": [
+      0,
+      65535
+    ],
+    "decode": "min + (value / 65535) * (max - min)"
+  },
+  "grids": {
+    "low": {
+      "url": "/terrain/kilauea/terrain-low.bin",
+      "width": 129,
+      "height": 129,
+      "bytes": 33282,
+      "sha256": "27bce5d5a7d349b6e3b47bda1eb3516e64af01ad35c05c1ab6b5f28ff281f878",
+      "sampleSpacingMeters": {
+        "x": 65.64465234426855,
+        "y": 64.86155092953585
+      },
+      "maxQuantizationErrorMeters": 0.0032128729644682608
+    },
+    "high": {
+      "url": "/terrain/kilauea/terrain-high.bin",
+      "width": 257,
+      "height": 257,
+      "bytes": 132098,
+      "sha256": "928631e3fc3c0fd6a51b63f546d16ecba63af77d00404f44561c9872fcad781c",
+      "sampleSpacingMeters": {
+        "x": 32.822326172134275,
+        "y": 32.430775464767926
+      },
+      "maxQuantizationErrorMeters": 0.0032128729644682608
+    }
+  },
+  "verticalExaggeration": 1.5,
+  "acquiredAt": "2026-10-16T16:13:17.400579Z",
+  "preview": {
+    "url": "/terrain/kilauea/preview.webp",
+    "width": 768,
+    "height": 720,
+    "bytes": 19106,
+    "sha256": "b2017676f84e71543b8d7924f12b07778b0b130848ca8a6e51802c7efc7c6671",
+    "kind": "DEM-derived hillshade; not aerial imagery",
+    "azimuthDegrees": 315,
+    "altitudeDegrees": 45
+  },
+  "preprocessing": {
+    "sourceWidth": 865,
+    "sourceHeight": 811,
+    "sourceTransform": [
+      9.259259269220167e-05,
+      0.0,
+      -155.32500000011103,
+      0.0,
+      -9.259259269220167e-05,
+      19.447592592337234
+    ],
+    "sampling": "Bilinear point resampling at vertex centers; no upsampling beyond native DEM resolution",
+    "quantization": "One shared crop min/max for both grids; round to nearest unsigned 16-bit integer",
+    "nodata": "Rejected; no nodata filling",
+    "elevationModification": "None; 1.5x exaggeration is viewer-only",
+    "horizontalScale": "Local WGS84 ellipsoid parallel and meridian lengths at the crop midpoint",
+    "software": {
+      "python": "3.13.5",
+      "numpy": "2.2.6",
+      "rasterio": "1.4.3",
+      "gdal": "3.9.3",
+      "pillow": "11.2.1",
+      "webp": "1.5.0"
+    }
+  }
+}

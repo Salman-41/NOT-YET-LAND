@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ChapterTransition, Kicker, c } from '../components/ui';
 import { VOLCANOES, asset, terrain, type Volcano } from '../data/volcanoes';
+import { TerrainInstrument } from '../components/TerrainInstrument';
 
 function ExpeditionRecord({ volcano: s, index }: { volcano: Volcano; index: number }) {
   const [phase, setPhase] = useState(1);
@@ -58,6 +59,7 @@ function ExpeditionRecord({ volcano: s, index }: { volcano: Volcano; index: numb
         </div>
       </section>
 
+      {s.slug === 'kilauea' && <TerrainInstrument />}
       <section className={c('chapter-interaction')} aria-labelledby="interactive-study">
         <div className={c('interaction-head')}>
           <div>
