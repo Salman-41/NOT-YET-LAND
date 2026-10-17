@@ -11,7 +11,7 @@ function EvidenceMedia({ source }: { source: ScientificSource }) {
   const [image, setImage] = useState(0);
   if (source.id === 'msh-landsat') return <Comparison pair={ST_HELENS_PAIR} />;
   if (source.id === 'tajogaite-landsat') return <Comparison pair={TAJOGAITE_PAIR} />;
-  if (!source.assets?.length) return <div className={s.recordCaveat}><span className={s.micro}>TEXTUAL / INTERPRETED RECORD</span><p>{source.measurement}. Read the original synthesis and the chapter’s explanatory instrument together.</p></div>;
+  if (!source.assets?.length) return <div className={s.recordCaveat}><span className={s.micro}>SOURCE REFERENCE / NO HOSTED MEDIA</span><p>{source.measurement}. Consult the original source and the chapter’s evidence instrument for context.</p></div>;
   const current = source.assets[Math.min(image, source.assets.length - 1)];
   return <figure className={s.evidenceMedia}>
     <img src={current} alt={`${source.name} — ${source.id === 'hvo-flow-maps' ? frames[image].date : source.observationDate}; ${source.measurement}`} loading="lazy" />

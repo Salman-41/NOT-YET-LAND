@@ -52,6 +52,9 @@ async function operate(page: Page, slug: Slug, touch = false) {
       await expect(study.locator('[role="status"]')).toContainText('Red / May–June');
       await action(/The northern opening/);
       await expect(study.locator('[role="status"]')).toContainText('Orange / December');
+      await action('Enlarge fissure map / scroll to inspect');
+      await expect(study.locator('[data-detail]')).toHaveAttribute('data-detail', 'true');
+      await action('Fit complete fissure map');
       break;
     case 'st-helens': {
       const slider = study.getByRole('slider', { name: 'Compare Mount St. Helens 1973 and 1983' });
@@ -132,6 +135,9 @@ test.describe('touch field instruments', () => {
 
 test('evidence room filters records, compares genuine dated imagery, and follows source links', async ({ page }) => {
   await page.goto('/evidence', { waitUntil: 'networkidle' });
+  const registry = await page.request.get('/research/sources.json');
+  expect(registry.ok()).toBe(true);
+  expect((await registry.json()).records).toHaveLength(14);
   const selected = page.getByRole('article', { name: 'Selected scientific record' });
   await expect(selected).toHaveAttribute('data-source-id', 'msh-landsat');
   await selected.getByRole('button', { name: 'Earlier only' }).click();
