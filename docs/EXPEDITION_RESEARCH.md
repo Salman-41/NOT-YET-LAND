@@ -52,7 +52,24 @@ Existing Natural Earth atlas assets and V02 art have separate provenance in [ATL
 
 ## Validation
 
-Validation results and screenshot links are recorded below after the final browser run.
+- Typecheck: passed with React Router route generation and TypeScript strict checking.
+- Production build: passed; all 12 public URLs prerendered to `build/client`. Existing lazy engine chunk-size and Router v8 migration warnings remain informational.
+- Vitest: **25 tests passed**, including complete registry fields, distinct volcano coverage, source/output SHA-256 checksums and paired image dimensions.
+- New browser suite: **20 tests passed** across six desktop instruments, six mobile instruments, six touch journeys and two Evidence room journeys. Native keyboard controls, visible changes, source deep links, registry download, loaded images and horizontal overflow are checked. Reduced-motion preference is exercised.
+- Full regression: final results recorded after completion below. These are Chromium/headless browser observations, not physical-device certification or a claim of universal assistive-technology coverage.
+
+Screenshots capture the signature modules after meaningful interaction at **1440 × 1000** and **390 × 844** viewport sizes. Element captures include the complete instrument; their image heights can exceed the viewport. The global fixed reading-progress bar is hidden only during these element captures.
+
+| Instrument | Desktop | Mobile |
+| --- | --- | --- |
+| Kīlauea map desk | [1440 px](../artifacts/expeditions/kilauea-1440.png) | [390 px](../artifacts/expeditions/kilauea-390.png) |
+| Reykjanes mapped fissures | [1440 px](../artifacts/expeditions/reykjanes-1440.png) | [390 px](../artifacts/expeditions/reykjanes-390.png) |
+| Mount St. Helens missing-flank explanation | [1440 px](../artifacts/expeditions/st-helens-1440.png) | [390 px](../artifacts/expeditions/st-helens-390.png) |
+| Etna historical deposits | [1440 px](../artifacts/expeditions/etna-1440.png) | [390 px](../artifacts/expeditions/etna-390.png) |
+| Tajogaite Atlantic-edge comparison | [1440 px](../artifacts/expeditions/tajogaite-1440.png) | [390 px](../artifacts/expeditions/tajogaite-390.png) |
+| Vesuvius excavation | [1440 px](../artifacts/expeditions/vesuvius-1440.png) | [390 px](../artifacts/expeditions/vesuvius-390.png) |
+
+[Evidence room after filtering and comparison](../artifacts/expeditions/evidence-room.png). The broader route suite also captures all 12 public routes at 320, 390, 768, 1024, 1440 and 1920 px.
 
 ## Remaining research opportunities
 

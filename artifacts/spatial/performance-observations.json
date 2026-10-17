@@ -1,0 +1,78 @@
+{
+  "measuredAt": "2026-10-17T16:34:57.602Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "browser": "156.0.8078.4",
+  "renderer": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+  },
+  "surface": {
+    "triangles": 142304,
+    "vertices": 97550,
+    "drawCalls": 13,
+    "geometries": 11,
+    "textures": 4,
+    "frameMs": 1.5,
+    "quality": "high",
+    "renderer": "WebKit WebGL",
+    "firstFrameMs": 1059.1999999997206,
+    "sampledFrames": 6,
+    "timingMethod": "CPU render submission; median of five warm frames. Not GPU frame time or FPS.",
+    "gridWidth": 257,
+    "gridHeight": 257,
+    "pixelRatio": 1,
+    "mode": "surface",
+    "readyMs": 13943
+  },
+  "sectional": {
+    "triangles": 146488,
+    "vertices": 106174,
+    "drawCalls": 15,
+    "geometries": 14,
+    "textures": 3,
+    "frameMs": 3.5,
+    "quality": "high",
+    "renderer": "WebKit WebGL",
+    "firstFrameMs": 459.8000000002794,
+    "sampledFrames": 6,
+    "timingMethod": "CPU render submission; median of five warm frames. Not GPU frame time or FPS.",
+    "gridWidth": 257,
+    "gridHeight": 257,
+    "pixelRatio": 1,
+    "mode": "section",
+    "readyMs": 13943
+  },
+  "resources": [
+    {
+      "name": "/terrain/kilauea/preview.webp",
+      "durationMs": 19,
+      "transferSize": 19406,
+      "decodedBytes": 19106
+    },
+    {
+      "name": "/terrain/kilauea/metadata.json",
+      "durationMs": 5,
+      "transferSize": 4681,
+      "decodedBytes": 4381
+    },
+    {
+      "name": "/terrain/kilauea/terrain-high.bin",
+      "durationMs": 26,
+      "transferSize": 132398,
+      "decodedBytes": 132098
+    },
+    {
+      "name": "/assets/VolcanicScene-CIxPkh4S.js",
+      "durationMs": 29,
+      "transferSize": 953027,
+      "decodedBytes": 952727
+    }
+  ],
+  "notes": [
+    "CPU render submission is not GPU frame time or FPS.",
+    "Headless Chromium observations; not physical-device or Core Web Vitals results."
+  ]
+}

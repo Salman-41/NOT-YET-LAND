@@ -56,7 +56,9 @@ test('the geographic Atlas starts automatically, pans, zooms, selects real coord
   await expect(page.locator('#atlas-map-note')).toContainText('Georeferenced cartography');
   await geographicCoordinates(page, '.maplibregl-marker[data-slug]');
   for (const asset of ['land-10m.geojson', 'coastline-10m.geojson', 'graticule.geojson', 'relief-mercator.webp']) {
-    expect(requests.some(url => new URL(url).pathname === `/geography/${asset}`)).toBe(true);
+    // Modern browsers fetch the retained .gz files and decompress locally;
+    // older browsers use the uncompressed geographic fallback.
+    expect(requests.some(url => new URL(url).pathname.replace(/\.gz$/, '') === `/geography/${asset}`)).toBe(true);
   }
 
   const kilauea = page.locator('.maplibregl-marker[data-slug="kilauea"]');
