@@ -1,0 +1,154 @@
+export type VolcanoSlug = 'kilauea' | 'reykjanes' | 'st-helens' | 'etna' | 'tajogaite' | 'vesuvius';
+export type EvidenceType = 'Mapped deposits' | 'Mapped structures' | 'Satellite imagery' | 'Chronology' | 'Stratigraphy' | 'Elevation';
+export type EvidenceClass = 'observation' | 'interpretation' | 'simulation';
+export interface ScientificSource {
+  id: string; volcano: VolcanoSlug; name: string; publisher: string; url: string;
+  observationDate: string; publicationDate: string; coverage: string; measurement: string;
+  license: string; licenseUrl: string; attribution: string; processing: string[];
+  classification: EvidenceClass; type: EvidenceType; limitation: string;
+  assets?: string[]; originalDownload?: string;
+}
+
+const usgsTerms = 'https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits';
+const nasaTerms = 'https://science.nasa.gov/blogs/earth-matters/2012/04/10/share-and-share-alike/';
+const ingvTerms = 'https://creativecommons.org/licenses/by/4.0/';
+export const SCIENTIFIC_SOURCES: ScientificSource[] = [  {
+    id: 'hvo-flow-maps', volcano: 'kilauea', name: 'Lower East Rift Zone lava-flow map time series',
+    publisher: 'USGS Hawaiian Volcano Observatory',
+    url: 'https://www.usgs.gov/media/videos/time-series-kilauea-volcanos-lower-east-rift-zone-lava-flow-maps',
+    observationDate: '2 May–14 August 2018; individual map dates retained in each frame', publicationDate: '2018-08-31',
+    coverage: 'Lower Puna, Island of Hawaiʻi; lower East Rift Zone', measurement: 'Field- and remotely mapped lava-flow margins, vents and historical coastline',
+    license: 'Public domain (explicitly stated on source page)', licenseUrl: usgsTerms,
+    attribution: 'USGS Hawaiian Volcano Observatory. Dated frames extracted from the published map time series.',
+    processing: ['Decode selected frames from the original MP4', 'Retain the full map, date, scale and legend', 'Encode WebP; no flow geometry synthesized'],
+    classification: 'observation', type: 'Mapped deposits',
+    limitation: 'Preliminary operational mapping, not continuous lava tracking. Frame extents change; do not interpolate or calculate area from the display.',
+    originalDownload: 'https://usgs-ocapsv2-public-input-media.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/video/Map_Timelapse.mp4',
+    assets: ['/research/kilauea-map-early.webp', '/research/kilauea-map-middle.webp', '/research/kilauea-map-late.webp'],
+  },
+  {
+    id: 'hvo-flow-vectors', volcano: 'kilauea', name: '2018 lower East Rift Zone individual flows — geospatial database',
+    publisher: 'Zoeller et al. / USGS', url: 'https://doi.org/10.5066/P9S7UQKQ', observationDate: 'May–September 2018', publicationDate: '2020-08-31',
+    coverage: 'Lower East Rift Zone, Kīlauea', measurement: 'Mapped individual lava-flow polygons',
+    license: 'USGS public-domain data release; no vectors redistributed here', licenseUrl: usgsTerms,
+    attribution: 'Zoeller, M.H., and colleagues (2020), USGS data release, doi:10.5066/P9S7UQKQ.',
+    processing: ['Catalogue metadata inspected; no geometry imported'], classification: 'observation', type: 'Mapped deposits',
+    limitation: 'ScienceBase returned HTTP 403 during acquisition. This edition uses the accessible HVO map series instead of inventing vector boundaries.',
+  },
+  {
+    id: 'reykjanes-observations', volcano: 'reykjanes', name: 'Sundhnúkur fissure episodes — satellite observations', publisher: 'NASA Earth Observatory / USGS Landsat',
+    url: 'https://science.nasa.gov/earth/earth-observatory/new-fissures-spill-lava-in-iceland-152344/',
+    observationDate: '2024-01-16 (December 2023 and January 2024 flow fields)', publicationDate: '2024-01-20',
+    coverage: 'Sundhnúkur crater row and Grindavík, Reykjanes peninsula, Iceland', measurement: 'Landsat 9 TIRS-2 thermal map over a digital elevation model',
+    license: 'NASA imagery reuse permitted, including commercial use; credited USGS Landsat data', licenseUrl: nasaTerms,
+    attribution: 'NASA Earth Observatory image by Lauren Dauphin, using Landsat data from the U.S. Geological Survey.',
+    processing: ['Retain published image framing and illustrative labels', 'Encode WebP without changing the lava-field shapes'],
+    classification: 'observation', type: 'Satellite imagery', assets: ['/research/reykjanes-january.webp'],
+    limitation: 'Thermal radiation is not lava thickness. The December and January episode controls inspect the same January observation. Plate-boundary drawing is schematic, without a distance scale.',
+  },
+  {
+    id: 'reykjanes-june', volcano: 'reykjanes', name: 'Iceland eruption goes another round — 2 June 2024', publisher: 'NASA Earth Observatory / USGS Landsat',
+    url: 'https://science.nasa.gov/image-detail/icelanderuption-oli-20240602/', observationDate: '2024-06-02 (eruption episode began 29 May 2024)', publicationDate: '2024-06-04 (updated 2024-06-11)',
+    coverage: 'Sundhnúkur crater row north of Grindavík, Iceland', measurement: 'Infrared-enhanced Landsat optical image',
+    license: 'NASA imagery reuse permitted, including commercial use', licenseUrl: nasaTerms,
+    attribution: 'NASA Earth Observatory / Lauren Dauphin, using USGS Landsat data.',
+    processing: ['Retain published framing', 'Encode WebP without inventing lava margins'], classification: 'observation', type: 'Satellite imagery',
+    assets: ['/research/reykjanes-june.webp'], limitation: 'Infrared enhancement highlights hot lava. Different framing and sensing method from January; not an aligned before/after pair.',
+  },
+  {
+    id: 'imo-episodes', volcano: 'reykjanes', name: 'Sundhnúkur 2023–2024 eruption chronology', publisher: 'Icelandic Meteorological Office',
+    url: 'https://en.vedur.is/about-imo/news/volcanic-unrest-grindavik-older-updates', observationDate: '18 December 2023; 14 January, 8 February and 16 March 2024', publicationDate: '2024 (rolling archive)',
+    coverage: 'Sundhnúkur crater row, Svartsengi volcanic system', measurement: 'Monitoring reports and documented episode start dates',
+    license: 'Factual chronology summarized; report prose and maps not redistributed', licenseUrl: 'https://en.vedur.is/about-imo/the-web/conditions/',
+    attribution: 'Icelandic Meteorological Office, monitoring archive; consulted 17 October 2026.', processing: ['Select four reported episode start dates', 'Write a short factual summary; no fissure geometry inferred'],
+    classification: 'observation', type: 'Chronology', limitation: 'A selected historical sequence, not a complete eruption catalogue or current hazard bulletin.',
+  },
+  {
+    id: 'msh-landsat', volcano: 'st-helens', name: 'Mount St. Helens, 1973 / 1983', publisher: 'USGS Landsat Missions / EROS',
+    url: 'https://www.usgs.gov/media/before-after/mount-st-helens-1973-1983', observationDate: '1973 and 1983 (years provided by this published pair)', publicationDate: '2025-05-29',
+    coverage: 'Mount St. Helens and surrounding blast-affected landscape, Washington, USA', measurement: 'Publisher-paired Landsat false-color imagery',
+    license: 'Public domain (explicitly stated on source page)', licenseUrl: usgsTerms, attribution: 'USGS Landsat Missions / EROS, Mount St. Helens 1973–1983.',
+    processing: ['Use the paired, equal-dimension publisher images', 'Encode WebP with the same framing; no warping or terrain morphing'],
+    classification: 'observation', type: 'Satellite imagery', assets: ['/research/st-helens-before.webp', '/research/st-helens-after.webp'],
+    limitation: 'The after image is from 1983, three years after the collapse. Spectral and seasonal differences are not solely eruption effects. No elevation difference is computed from imagery.',
+  },
+  {
+    id: 'msh-collapse', volcano: 'st-helens', name: 'From the 1980 eruption to 2000 — Fact Sheet 036-00', publisher: 'USGS',
+    url: 'https://pubs.usgs.gov/fs/2000/fs036-00/', observationDate: 'March–May 1980; climactic event 18 May 1980', publicationDate: '2000',
+    coverage: 'Mount St. Helens, Washington, USA', measurement: 'Documented chronology and reported summit elevations',
+    license: 'Public-domain USGS factual summary', licenseUrl: usgsTerms, attribution: 'USGS Fact Sheet 036-00, Mount St. Helens — From the 1980 Eruption to 2000.',
+    processing: ['Summarize chronology and reported elevations', 'Draw a qualitative northern-flank silhouette; no DEM reconstruction'],
+    classification: 'interpretation', type: 'Chronology', limitation: 'The silhouette is an explanatory reconstruction. Reported summit heights are facts; the drawn outline is not surveyed geometry.',
+  },
+  {
+    id: 'etna-dante', volcano: 'etna', name: 'DANTE — Database of Etna’s historical eruptions', publisher: 'Branca, Del Carlo, Behncke & Bonfanti / INGV',
+    url: 'https://doi.org/10.13127/etna/dante', observationDate: '6th century BCE–2024; selected historical deposits', publicationDate: '2025-04-01',
+    coverage: 'Etna volcano, Sicily, Italy', measurement: 'Historical eruption catalogue and published deposit map',
+    license: 'CC BY 4.0', licenseUrl: ingvTerms, attribution: 'Branca S., Del Carlo P., Behncke B., Bonfanti P. (2025). DANTE. INGV. doi:10.13127/etna/dante. CC BY 4.0. Display and color-isolation adaptations by NOT YET LAND.',
+    processing: ['Retain the published map and legend', 'Extract selected catalogue rows from XLSX', 'Isolate color classes within the map area; no digitized vector boundaries or inferred deposit thickness'],
+    classification: 'interpretation', type: 'Mapped deposits', assets: ['/research/etna-map.webp'],
+    originalDownload: 'https://www.ct.ingv.it/images/Cartografia_Etna/DB_of_Etnas_historical_eruptions_1d.xlsx',
+    limitation: 'Published historical mapping combines observation and interpretation. Raster color isolation is approximate and retains overlapping printed labels; deposits and ages must be read against the original legend.',
+  },
+  {
+    id: 'tajogaite-landsat', volcano: 'tajogaite', name: 'A changed landscape on La Palma', publisher: 'NASA Earth Observatory / USGS Landsat 8',
+    url: 'https://science.nasa.gov/earth/earth-observatory/a-changed-landscape-on-la-palma-149231/',
+    observationDate: '2021-05-21 / 2021-12-15', publicationDate: '2021-12-21', coverage: 'Western La Palma: Todoque, El Paraíso, Tazacorte and the Atlantic coast',
+    measurement: 'Publisher-paired natural-color Landsat 8 OLI imagery', license: 'NASA imagery reuse permitted, including commercial use; USGS Landsat data', licenseUrl: nasaTerms,
+    attribution: 'NASA Earth Observatory images by Lauren Dauphin, using Landsat data from the U.S. Geological Survey.',
+    processing: ['Retain the published paired images and labels', 'Encode WebP without reframing', 'Use matching proportional crops for the investigation lens'],
+    classification: 'observation', type: 'Satellite imagery', assets: ['/research/tajogaite-before.webp', '/research/tajogaite-after.webp'],
+    limitation: 'Clouds obscure part of the later image. Context lenses locate broad areas, not surveyed building damage. No property-level loss count or pixel-derived area is reported.',
+  },
+  {
+    id: 'vesuvius-strata', volcano: 'vesuvius', name: '79 CE eruption — stratigraphy and eruptive dynamics', publisher: 'INGV Osservatorio Vesuviano',
+    url: 'https://www.ov.ingv.it/index.php/storia-vesuvio/pompei', observationDate: '79 CE deposits; modern stratigraphic interpretation (survey dates not specified)', publicationDate: 'Undated institutional synthesis; consulted 2026-10-17',
+    coverage: 'Somma–Vesuvius and archaeological sites including Pompeii', measurement: 'Published interpretation of eruptive units EU1–EU8',
+    license: 'Reference only; no INGV artwork or text reproduced', licenseUrl: 'https://www.ingv.it/it/note-legali',
+    attribution: 'Scientific basis: INGV Osservatorio Vesuviano, “L’eruzione di Pompei (79 d.C.)”, edited by F. Sansivero. Diagram and explanatory prose by NOT YET LAND.',
+    processing: ['Summarize selected deposit types in original prose', 'Draw a generalized illustrated sequence with arbitrary layer thickness', 'Separate deposit evidence, eyewitness account and modern inference'],
+    classification: 'interpretation', type: 'Stratigraphy', limitation: 'A selected, generalized sequence, not a measured excavation log. Thicknesses are not to scale; not every unit occurs at every site. The calendar date of the eruption remains debated.',
+  },
+  {
+    id: 'kilauea-3dep', volcano: 'kilauea', name: 'Kīlauea summit — archived 3DEP elevation', publisher: 'USGS 3D Elevation Program',
+    url: 'https://www.usgs.gov/3d-elevation-program/about-3dep-products-services', observationDate: 'Tile-wide sources: 1954–2023; exact summit epoch unresolved', publicationDate: '2025-06-11', coverage: '19.37254–19.44754° N, 155.32496–155.24496° W',
+    measurement: '1/3 arc-second elevation raster; retained summit crop', license: 'Public domain', licenseUrl: usgsTerms,
+    attribution: 'USGS 3DEP, USGS 13 n20w156 20250611.', processing: ['Native GeoTIFF crop', 'Bilinear resampling to 129² / 257²', '16-bit heightfield encoding; display exaggeration 1.5×'],
+    classification: 'observation', type: 'Elevation', assets: ['/terrain/kilauea/preview.webp'], limitation: 'Mixed-epoch archive, not a 2018 before/after surface. Publisher datum NAVD88; applicability to this Hawaiian crop has not been independently validated.',
+  },
+  {
+    id: 'pliny-letters', volcano: 'vesuvius', name: 'Pliny to Tacitus — Letters 6.16 and 6.20', publisher: 'Pliny the Younger; Latin edition: Dickinson College Commentaries',
+    url: 'https://dcc.dickinson.edu/pliny-letters/6-20', observationDate: 'Events of 79 CE; letters written decades afterward', publicationDate: 'Ancient letters; modern edition consulted 2026-10-17',
+    coverage: 'Bay of Naples, including the eyewitness viewpoint at Misenum', measurement: 'Historical testimony, not instrument measurements or a deposit log',
+    license: 'Reference only; no modern edition, translation or commentary reproduced', licenseUrl: 'https://dcc.dickinson.edu/pliny-letters/6-20',
+    attribution: 'Pliny, Letters 6.16 and 6.20, to Tacitus. Original explanatory summaries by NOT YET LAND.',
+    processing: ['Read Letters 6.16 and 6.20', 'Write original short factual summaries', 'Keep historical testimony separate from geological correlation'],
+    classification: 'interpretation', type: 'Chronology', limitation: 'Retrospective literary accounts from particular viewpoints. Linking descriptions to individual deposits is a modern interpretation; the calendar date is debated.',
+  },
+  {
+    id: 'msh-reawakening', volcano: 'st-helens', name: 'Reawakening and initial activity, 1980', publisher: 'USGS',
+    url: 'https://pubs.usgs.gov/gip/msh/reawakening.html', observationDate: 'March–May 1980', publicationDate: 'Institutional historical account; consulted 2026-10-17',
+    coverage: 'Mount St. Helens, Washington, USA', measurement: 'Historical seismic and eruptive chronology',
+    license: 'USGS public-domain factual account; original prose summarized', licenseUrl: usgsTerms,
+    attribution: 'USGS, Mount St. Helens — Reawakening and initial activity. Summary by NOT YET LAND.',
+    processing: ['Summarize dated events in an interactive timeline'], classification: 'observation', type: 'Chronology',
+    limitation: 'Historical overview; not a live monitoring stream. Event descriptions do not specify surveyed crater geometry.',
+  },
+  {
+    id: 'reykjanes-fissures', volcano: 'reykjanes', name: 'Svartsengi 2023–2024 mapped fissures — Figure 7', publisher: 'Rhodes, Pyle, Mather, Pedersen & Parks / Bulletin of Volcanology',
+    url: 'https://doi.org/10.1007/s00445-026-02006-3', observationDate: 'December 2023–September 2024', publicationDate: '2026-07-11',
+    coverage: 'Sundhnúkur crater row, Svartsengi volcanic system, Iceland', measurement: 'Published fissure outlines mapped from aerial and satellite imagery; visible and inferred faults distinguished in legend',
+    license: 'CC BY 4.0; article figures included unless otherwise credited', licenseUrl: ingvTerms,
+    attribution: 'Rhodes, R.S., Pyle, D.M., Mather, T.A., Pedersen, G.B.M. & Parks, M.M. (2026), Bulletin of Volcanology 88, 89, Fig. 7. Base DEM: ÍslandsDEM (2025), Landmælingar Íslands; faults and old crater/lava outlines after Jenness & Clifton (2009). Retrieved 17 October 2026. WebP conversion by NOT YET LAND.',
+    processing: ['Acquire CC BY paper from Oxford Research Archive', 'Extract embedded Figure 7 from PDF page 9 with Poppler', 'Retain all panels, original scale and legend; encode WebP'],
+    classification: 'observation', type: 'Mapped structures', assets: ['/research/reykjanes-fissures.webp'],
+    originalDownload: 'https://ora.ox.ac.uk/objects/uuid:60bae2b3-ff81-4711-bd0b-33f107111c56/files/rft848t35r',
+    limitation: 'A published raster figure, not newly digitized vectors. Faults marked inferred are interpretations. Gray lava outlines are 2–3 ka old, not the 2023–2024 fields. No new fissure length is computed.',
+  },
+];
+export function sourceById(id: string): ScientificSource {
+  const source = SCIENTIFIC_SOURCES.find(item => item.id === id);
+  if (!source) throw new Error(`Unknown scientific source: ${id}`);
+  return source;
+}
+export const EVIDENCE_TYPES: EvidenceType[] = ['Mapped deposits', 'Mapped structures', 'Satellite imagery', 'Chronology', 'Stratigraphy', 'Elevation'];

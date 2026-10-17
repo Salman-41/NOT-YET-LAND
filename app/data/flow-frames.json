@@ -1,0 +1,23 @@
+[
+  {
+    "date": "8 May 2018",
+    "asset": "/research/kilauea-map-early.webp",
+    "note": "An early operational map: lava remains close to the mapped fissures in Leilani Estates.",
+    "requestedSecond": 15,
+    "decodedSecond": 14.9149
+  },
+  {
+    "date": "10 June 2018",
+    "asset": "/research/kilauea-map-middle.webp",
+    "note": "The published sheet shows flow expansion toward Kapoho and active ocean entry. Compare the former coastline with the lava margin.",
+    "requestedSecond": 45,
+    "decodedSecond": 44.110733333333336
+  },
+  {
+    "date": "7 August 2018",
+    "asset": "/research/kilauea-map-late.webp",
+    "note": "The late-eruption sheet preserves the enlarged field, mapped fissures, and the former coastline. It remains an operational snapshot.",
+    "requestedSecond": 79,
+    "decodedSecond": 78.94553333333333
+  }
+]

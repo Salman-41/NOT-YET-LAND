@@ -1,0 +1,207 @@
+{
+  "retrieved": "2026-10-17",
+  "software": {
+    "Pillow": "12.0.0",
+    "PyAV": "16.0.1",
+    "openpyxl": "3.1.5"
+  },
+  "sourceRegistry": "app/data/sources.ts",
+  "frames": [
+    {
+      "date": "8 May 2018",
+      "asset": "/research/kilauea-map-early.webp",
+      "note": "An early operational map: lava remains close to the mapped fissures in Leilani Estates.",
+      "requestedSecond": 15,
+      "decodedSecond": 14.9149
+    },
+    {
+      "date": "10 June 2018",
+      "asset": "/research/kilauea-map-middle.webp",
+      "note": "The published sheet shows flow expansion toward Kapoho and active ocean entry. Compare the former coastline with the lava margin.",
+      "requestedSecond": 45,
+      "decodedSecond": 44.110733333333336
+    },
+    {
+      "date": "7 August 2018",
+      "asset": "/research/kilauea-map-late.webp",
+      "note": "The late-eruption sheet preserves the enlarged field, mapped fissures, and the former coastline. It remains an operational snapshot.",
+      "requestedSecond": 79,
+      "decodedSecond": 78.94553333333333
+    }
+  ],
+  "colorIsolation": {
+    "method": "RGB/HSV thresholding; approximate raster class separation, not vector digitization",
+    "pixels": {
+      "medieval": 27034,
+      "early-modern": 26132,
+      "modern": 13648
+    }
+  },
+  "originals": [
+    {
+      "path": "source/expeditions/kilauea-map-timelapse.mp4",
+      "url": "https://usgs-ocapsv2-public-input-media.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/atoms/video/Map_Timelapse.mp4",
+      "bytes": 58666880,
+      "sha256": "5138431b54af98f2c17234d2f58dbc04211f44297f441f4189c7bd9e23cfa7c3"
+    },
+    {
+      "path": "source/expeditions/st-helens-before.png",
+      "url": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/images/1973.png",
+      "bytes": 2804373,
+      "sha256": "c3533af20c1015e86aede0ac37911a513e02722acfd322b9843c80376a0ba455"
+    },
+    {
+      "path": "source/expeditions/st-helens-after.png",
+      "url": "https://d9-wret.s3.us-west-2.amazonaws.com/assets/palladium/production/s3fs-public/media/images/1983.png",
+      "bytes": 1297796,
+      "sha256": "e9a3f8756df811a8c82df84342774e32bab519ac946513d0ca8c1796552208a4"
+    },
+    {
+      "path": "source/expeditions/tajogaite-before.jpg",
+      "url": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/imagerecords/149000/149231/lapalma_oli_2021141.jpg",
+      "bytes": 409370,
+      "sha256": "afcea23d6cb21391a8fff4708a2f652cda88af3e3b2e66ae7b7201a18c73ee76"
+    },
+    {
+      "path": "source/expeditions/tajogaite-after.jpg",
+      "url": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/imagerecords/149000/149231/lapalma_oli_2021349.jpg",
+      "bytes": 347018,
+      "sha256": "38724770de7274424f17cca86dd36c61cf354f60ed42ce189321e9b77245a86a"
+    },
+    {
+      "path": "source/expeditions/reykjanes-january.jpg",
+      "url": "https://assets.science.nasa.gov/content/dam/science/esd/eo/images/imagerecords/152000/152344/icelanderuption_tirs2_20240116.jpg",
+      "bytes": 450952,
+      "sha256": "ddcd10edc193439e2ea4478199d37872bc01f2b42fe3ad48397c8e8f21fb5c5b"
+    },
+    {
+      "path": "source/expeditions/reykjanes-june.jpg",
+      "url": "https://science.nasa.gov/wp-content/uploads/2023/06/icelanderuption-oli-20240602.jpg",
+      "bytes": 312337,
+      "sha256": "e84dcd4a369e227f11230146a4500fdb5c0e924d9c94054f769185b4b47375a8"
+    },
+    {
+      "path": "source/expeditions/etna-map.jpg",
+      "url": "https://www.ct.ingv.it/images/Cartografia_Etna/6_-_mappa_eruzioni_storiche.jpg",
+      "bytes": 306502,
+      "sha256": "8d07c9eabc8b9c6122e6035741f019a8ccc4eb41193d1794beeea904cc6a849d"
+    },
+    {
+      "path": "source/expeditions/etna-dante.xlsx",
+      "url": "https://www.ct.ingv.it/images/Cartografia_Etna/DB_of_Etnas_historical_eruptions_1d.xlsx",
+      "bytes": 56753,
+      "sha256": "c5a52f82b5864aa7b0d4f424700753d3e2b4223e55c6c60510afb3fc0d63d7ab"
+    },
+    {
+      "path": "source/expeditions/reykjanes-fissures.pdf",
+      "url": "https://ora.ox.ac.uk/objects/uuid:60bae2b3-ff81-4711-bd0b-33f107111c56/files/rft848t35r",
+      "bytes": 12156361,
+      "sha256": "71494fe0692c13c267296d7c7a2ddbd12739126942b3909cefc4f718c1fc361c"
+    }
+  ],
+  "outputs": [
+    {
+      "url": "/research/etna-catalogue-extract.json",
+      "bytes": 2701,
+      "sha256": "c0e8523c3f87795e42b4ee06892efc68dd4b67cbc7ff27e3c7b1e49976c5086f"
+    },
+    {
+      "url": "/research/etna-early-modern.webp",
+      "bytes": 47700,
+      "sha256": "83d3b9f922dddedd6ebc4054fafcdd5d35fc2dc0b660be9dc4561f6694c74416",
+      "width": 500,
+      "height": 595
+    },
+    {
+      "url": "/research/etna-map.webp",
+      "bytes": 155078,
+      "sha256": "2b7fcaffbf78364617f717326c4a0dbe3b7d22b70a9b036c3dac0f4b8f00f56b",
+      "width": 500,
+      "height": 595
+    },
+    {
+      "url": "/research/etna-medieval.webp",
+      "bytes": 42356,
+      "sha256": "1344656ea8b039dff439c34c99f322915afaddddcf6ae1465f869c231179628b",
+      "width": 500,
+      "height": 595
+    },
+    {
+      "url": "/research/etna-modern.webp",
+      "bytes": 23462,
+      "sha256": "04b4b7985a458b1b1fdf2a10aaf03d35dbee38b78a3e3e357ab63ccf13d0b153",
+      "width": 500,
+      "height": 595
+    },
+    {
+      "url": "/research/kilauea-map-early.webp",
+      "bytes": 459100,
+      "sha256": "9ff825d8b15f36276c94a426cd0ff24f8fc096712cb7d62bdb7be63c352bce9b",
+      "width": 2200,
+      "height": 1700
+    },
+    {
+      "url": "/research/kilauea-map-late.webp",
+      "bytes": 559082,
+      "sha256": "336ae2214543824d63a2efde5fa22752c8d414f045f8e8bc53dad8b614649966",
+      "width": 2200,
+      "height": 1700
+    },
+    {
+      "url": "/research/kilauea-map-middle.webp",
+      "bytes": 589584,
+      "sha256": "7a55122bbd3d862d04d8e5fdcfdf76ef564e0e650ed4621015d2d143bf69a45f",
+      "width": 2200,
+      "height": 1700
+    },
+    {
+      "url": "/research/reykjanes-fissures.webp",
+      "bytes": 721000,
+      "sha256": "0f72d0492d284d42b9660d8a74e2972bb5fbdb37a5f596fdb71e2bed76d533d5",
+      "width": 2200,
+      "height": 1534
+    },
+    {
+      "url": "/research/reykjanes-january.webp",
+      "bytes": 147938,
+      "sha256": "d71236483b83bddb9df322f86fb976b4fab4296596307a73c17e016be0a6cea1",
+      "width": 720,
+      "height": 765
+    },
+    {
+      "url": "/research/reykjanes-june.webp",
+      "bytes": 109158,
+      "sha256": "6209c67a15b87740c3ba40e2e14e70c83eec009b0e3d736feab1d9f65509c3f7",
+      "width": 720,
+      "height": 480
+    },
+    {
+      "url": "/research/st-helens-after.webp",
+      "bytes": 221148,
+      "sha256": "f4692dd12e413b8125ac1d000bd056486bec2d82e51dda149ba9febc6c32c247",
+      "width": 1000,
+      "height": 792
+    },
+    {
+      "url": "/research/st-helens-before.webp",
+      "bytes": 287086,
+      "sha256": "958607ebc3f82a03af927e0539df5b37f5f7147b9ee91f222a1f381b2db60448",
+      "width": 1000,
+      "height": 792
+    },
+    {
+      "url": "/research/tajogaite-after.webp",
+      "bytes": 126088,
+      "sha256": "5089c08b2ff590bfbf849e20d48f67d3f2e08a6123ef9248947223c49bb8d77a",
+      "width": 720,
+      "height": 480
+    },
+    {
+      "url": "/research/tajogaite-before.webp",
+      "bytes": 164806,
+      "sha256": "440d4f8330f0bcc7bbc19f360d1ee5f24841cef7a3963fbb813daf5a82f8a9a4",
+      "width": 720,
+      "height": 480
+    }
+  ]
+}

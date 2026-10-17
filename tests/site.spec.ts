@@ -123,27 +123,6 @@ test('mobile navigation traps keyboard focus and Escape restores the trigger', a
   await expect(trigger).toHaveAttribute('aria-expanded', 'false');
 });
 
-for (const record of VOLCANOES) {
-  test(`${record.name}: the keyboard instrument reaches both named phases`, async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto(`/expedition/${record.slug}`, { waitUntil: 'networkidle' });
-    const range = page.getByRole('slider', { name: `${record.interaction} progression`, exact: true });
-    await range.scrollIntoViewIfNeeded();
-    await range.focus();
-    await range.press('End');
-    await expect(range).toHaveValue('3');
-    await expect(page.locator('#moduleStepName')).toHaveText(record.moduleSteps[3]);
-    await expect(page.locator('#moduleStepCaption')).toHaveText('STEP 04 / CONCEPT MODEL');
-    await expect(page.locator('#stageArt')).toHaveAttribute('data-phase', '3');
-    await expect(page.locator('#stageOverlay')).toHaveCSS('opacity', '0.97');
-    await range.press('Home');
-    await expect(page.locator('#moduleStepName')).toHaveText(record.moduleSteps[0]);
-    await expect(range).toHaveAttribute('aria-valuetext', `Step 1 of 4: ${record.moduleSteps[0]}`);
-    await expect(page.getByRole('link', { name: /Open original source:/i })).toHaveAttribute('href', record.sourceUrl);
-  });
-}
-
 test('subsurface surface/section modes and keyboard input change the actual fallback boundary', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await withoutWebGL(page);
@@ -188,24 +167,20 @@ test('subsurface surface/section modes and keyboard input change the actual fall
   await expect(page.getByRole('button', { name: 'Surface view', exact: true })).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('evidence comparison moves the visible clipping boundary and preserves its concept label', async ({ page }) => {
+test('evidence comparison moves an actual USGS image boundary with dated labels', async ({ page }) => {
   await page.goto('/evidence', { waitUntil: 'networkidle' });
-  const range = page.getByRole('slider', { name: 'Compare two conceptual terrain studies', exact: true });
-  const alternate = page.getByRole('img', { name: /Alternative illustrative relief/ });
+  const range = page.getByRole('slider', { name: 'Compare Mount St. Helens 1973 and 1983', exact: true });
   await range.focus();
   await range.press('End');
   await expect(range).toHaveValue('100');
-  await expect(alternate).toHaveAttribute('style', /100%/);
+  await expect(page.locator('[data-before-clip]')).toHaveCSS('clip-path', 'inset(0px 0% 0px 0px)');
   await range.press('Home');
   await expect(range).toHaveValue('0');
   for (let step = 0; step < 25; step += 1) await range.press('ArrowRight');
   await expect(range).toHaveValue('25');
-  await expect(range).toHaveAttribute('aria-valuetext', '25% study A; 75% study B');
-  await expect(alternate).toHaveAttribute('style', /25%/);
-  await expect(page.getByText('STUDY A / ILLUSTRATION', { exact: true })).toBeVisible();
-  await expect(page.getByText('STUDY B / ILLUSTRATION', { exact: true })).toBeVisible();
-  await settleArtwork(page);
-  await page.screenshot({ path: 'artifacts/screenshots/evidence-comparison-25-percent.png', fullPage: true, animations: 'disabled' });
+  await expect(range).toHaveAttribute('aria-valuetext', '25% earlier image; 75% later image');
+  await expect(page.getByText('1973 / BEFORE', { exact: true })).toBeVisible();
+  await expect(page.getByText('1983 / AFTER', { exact: true })).toBeVisible();
 });
 
 test('the archive stays usable with WebGL unavailable and reduced motion requested', async ({ page }) => {
@@ -218,12 +193,11 @@ test('the archive stays usable with WebGL unavailable and reduced motion request
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(/The atlas\./);
   await page.getByRole('button', { name: 'Select Kīlauea', exact: true }).click();
   await page.getByRole('link', { name: 'Begin expedition' }).click();
-  const instrument = page.getByRole('slider', { name: 'Trace the flow progression' });
+  const instrument = page.getByRole('slider', { name: 'Lava map date' });
   await instrument.focus();
   await instrument.press('End');
-  await expect(page.locator('#moduleStepName')).toHaveText('New land remains');
-  const duration = await page.locator('#moduleTarget').evaluate(element => parseFloat(getComputedStyle(element).animationDuration));
-  expect(duration).toBeLessThanOrEqual(0.001);
+  await expect(page.locator('#signature-study')).toHaveAttribute('data-step', '2');
+  await expect(instrument).toHaveValue('2');
   await page.goto('/subsurface', { waitUntil: 'networkidle' });
   await page.getByRole('button', { name: /Load the 3D study/ }).click();
   await expect(page.locator('#section-instrument')).toHaveAttribute('data-scene-state', 'fallback');
@@ -241,13 +215,8 @@ test.describe('touch controls', () => {
     await page.getByRole('button', { name: 'Select Reykjanes', exact: true }).tap();
     await expect(page.locator('#atlas-selected-record').getByRole('heading')).toHaveText('Reykjanes');
     await page.getByRole('link', { name: 'Begin expedition' }).tap();
-    const range = page.getByRole('slider', { name: 'Expose the fracture progression' });
-    await range.scrollIntoViewIfNeeded();
-    const bounds = await range.boundingBox();
-    expect(bounds).not.toBeNull();
-    await range.tap({ position: { x: (bounds?.width ?? 200) * 0.9, y: (bounds?.height ?? 16) / 2 } });
-    await expect.poll(async () => Number(await range.inputValue())).toBeGreaterThan(1);
-    await expect(page.locator('#moduleStepCaption')).not.toHaveText('STEP 02 / CONCEPT MODEL');
+    await page.locator('#signature-study').getByRole('button', { name: /The same system, another field/ }).tap();
+    await expect(page.locator('#signature-study')).toHaveAttribute('data-episode', '2');
     await page.goto('/subsurface', { waitUntil: 'networkidle' });
     await page.getByRole('button', { name: 'Full section / 100%', exact: true }).tap();
     await expect(page.locator('#clipInterior')).toHaveAttribute('width', '1100');

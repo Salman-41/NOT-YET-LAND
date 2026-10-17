@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { ChapterTransition, Kicker, c } from '../components/ui';
 import { VOLCANOES, asset, terrain, type Volcano } from '../data/volcanoes';
 import { TerrainInstrument } from '../components/TerrainInstrument';
+import { SignatureStudy } from '../expeditions/SignatureStudy';
 
 function ExpeditionRecord({ volcano: s, index }: { volcano: Volcano; index: number }) {
-  const [phase, setPhase] = useState(1);
   const record = String(index + 1).padStart(2, '0');
-  const step = String(phase + 1).padStart(2, '0');
   const next = VOLCANOES[(index + 1) % VOLCANOES.length];
 
   return (
@@ -59,54 +57,8 @@ function ExpeditionRecord({ volcano: s, index }: { volcano: Volcano; index: numb
         </div>
       </section>
 
+      <SignatureStudy slug={s.slug} />
       {s.slug === 'kilauea' && <TerrainInstrument />}
-      <section className={c('chapter-interaction')} aria-labelledby="interactive-study">
-        <div className={c('interaction-head')}>
-          <div>
-            <Kicker>INTERACTIVE STUDY / {record}</Kicker>
-            <h2 id="interactive-study">{s.interaction}<span className={c('rust')}>.</span></h2>
-          </div>
-          <p>{s.moduleText}</p>
-        </div>
-        <div className={c('interaction-stage')}>
-          <div id="stageArt" className={c('stage-art', `module-${s.module}`, `phase-${phase}`)} data-phase={phase}>
-            <img src={asset(s.art)} alt={`Illustrative geological terrain for ${s.name}; artistic concept, not measured terrain`} loading="lazy" />
-            <div id="stageOverlay" className={c('lava-overlay')} style={{ opacity: 0.16 + phase * 0.27 }} aria-hidden="true" />
-            <div id="stageLines" className={c('thin-lines')} style={{ opacity: 0.12 + phase * 0.23, transform: `rotate(${phase * 14 - 30}deg)` }} aria-hidden="true" />
-            <div id="moduleTarget" className={c('module-target', 'pulse')} style={{ width: 95 + phase * 45, height: 95 + phase * 45 }} aria-hidden="true" />
-            <div className={c('stage-top', 'mono')}><span>FIELD STUDY / {s.name.toUpperCase()}</span><span>FIG. {record}—A</span></div>
-            <div className={c('stage-bottom')}>
-              <div className={c('label')}>{s.question.toUpperCase()}</div>
-              <div className={c('stage-illustration-note')}>ARTISTIC CONCEPT / NOT A MEASUREMENT</div>
-            </div>
-          </div>
-          <div className={c('module-panel')}>
-            <div className={c('module-index')}>FIELD INSTRUMENT / {s.module.toUpperCase()}</div>
-            <h3>{s.interaction}</h3>
-            <p id="module-description">{s.moduleText}</p>
-            <div className={c('module-option')}>
-              <label htmlFor="moduleRange" id="moduleLabel">{s.interaction} / <span id="moduleNumber">{step}</span> OF 04</label>
-              <input
-                id="moduleRange"
-                type="range"
-                min="0"
-                max="3"
-                step="1"
-                value={phase}
-                aria-label={`${s.interaction} progression`}
-                aria-describedby="module-description"
-                aria-valuetext={`Step ${phase + 1} of 4: ${s.moduleSteps[phase]}`}
-                onChange={(event) => setPhase(Math.max(0, Math.min(3, Number(event.currentTarget.value))))}
-              />
-              <div className={c('mono', 'muted')} style={{ display: 'flex', justifyContent: 'space-between', marginTop: 9 }} aria-hidden="true"><span>01</span><span>04</span></div>
-            </div>
-            <div className={c('module-readout')} aria-live="polite" aria-atomic="true">
-              <strong id="moduleStepName">{s.moduleSteps[phase]}</strong>
-              <p id="moduleStepCaption">STEP {step} / CONCEPT MODEL</p>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <section className={c('history-top')} aria-labelledby="landscape-keeps">
         <Kicker>READ THE TRACE / {s.year}</Kicker>

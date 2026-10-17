@@ -63,3 +63,6 @@
 /* Spatial instruments extend the approved exhibition layout. */
 .spatial-subsurface>section{margin-left:-4.59%;margin-right:-4.59%}
 @media(max-width:800px){.spatial-subsurface>section{margin-left:-5.56%;margin-right:-5.56%}}
+
+/* Keep the offscreen skip link clipped during tall instrument captures; focus reveals it. */
+.skip:not(:focus){clip-path:inset(50%)}

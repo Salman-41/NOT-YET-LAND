@@ -28,8 +28,9 @@ The production preview runs at `http://localhost:4173`. Playwright needs its mat
 ```text
 app/
   components/     navigation, identity, annotations, source links, comparison, transitions
-  data/           six typed field records and the original source register
-  pages/          native React exhibition pages and instruments
+  data/           field records, typed scientific source registry, dated map frames
+  expeditions/    six distinct research instruments and shared annotation primitives
+  pages/          native React exhibition pages and evidence investigation
   routes/         React Router framework modules and route metadata
   scenes/         optional MapLibre instrument and Phase 2 R3F scene host
   state/          transient Zustand selection, search, navigation and renderer ownership
@@ -37,6 +38,10 @@ app/
 public/
   assets/         unchanged original V02 illustrations
   fonts/          self-hosted Noto Serif Display and supplied font license
+  research/       optimized licensed evidence, checksums and downloadable source registry
+  terrain/        measured summit heightfields and static fallback
+  geography/      local Natural Earth cartography
+source/expeditions/ retained scientific originals for the offline evidence pipeline
 tests/            Vitest archive integrity and Playwright browser journeys
 docs/             reference audit, package decisions and implementation report
 artifacts/        responsive screenshots produced by browser verification
@@ -56,14 +61,29 @@ Use your actual deployment domain when adding an absolute canonical URL, sitemap
 
 ## Interaction and rendering
 
-All core instruments use DOM/SVG and native controls. The atlas starts with the original illustrated projection and six selectable pins. **Pan the map** loads a MapLibre renderer for an optional movable version of that same conceptual artwork. It uses local assets and no external map service. If rendering fails, the illustration and field list remain usable.
+Six expedition modules use distinct controls and compositions: Kīlauea’s dated HVO map desk; Reykjanes’s fissure/episode investigation; Mount St. Helens’s satellite comparison and qualitative collapse profile; Etna’s historical deposit classes; Tajogaite’s environmental comparison lenses; and Vesuvius’s illustrated stratigraphic excavation. The Evidence room filters 14 typed research records and exposes acquisition dates, processing, rights, limitations and permitted downloads.
 
-`SceneManager` is a Phase 2 boundary for one active R3F terrain viewport. Its lazy Canvas uses demand rendering, capped pixel ratio and Drei orbit controls. `renderer` ownership in Zustand prevents an active map and terrain scene from sharing the budget. No speculative terrain mesh or DEM is shipped as science. GSAP/ScrollTrigger handle restrained route motion and reading progress using ordinary scrolling; motion preferences are respected.
+The Phase 2 MapLibre atlas uses locally hosted Natural Earth cartography, with selectable geographic reference points, restrained camera travel and an accessible field list. Kīlauea retains its lazy R3F terrain study derived from a USGS 3DEP summit crop. Subsurface retains the interactive generalized 3D section. Renderer ownership limits the active WebGL context budget; the new research instruments add no WebGL contexts. Native controls, static fallbacks, ordinary scrolling and reduced-motion support remain available.
+
+Read [expedition implementation and licensing](docs/EXPEDITION_RESEARCH.md), [atlas provenance](docs/ATLAS_DATA.md), [terrain provenance](docs/TERRAIN_DATA.md) and [spatial architecture](docs/SPATIAL_SYSTEMS.md).
+
+## Rebuild the expedition evidence
+
+The checked-in runtime assets need no Python at deployment. To reproduce them from retained originals, install Poppler (`pdfimages`) and use the pinned Python environment:
+
+```sh
+python3 -m venv /tmp/not-yet-land-evidence
+/tmp/not-yet-land-evidence/bin/pip install -r scripts/requirements-evidence.txt
+/tmp/not-yet-land-evidence/bin/python scripts/prepare-expedition-evidence.py
+npm run build
+```
+
+`--download` acquires missing originals from the official URLs. The normal pipeline runs offline. It extracts dated HVO video frames and the published fissure figure, encodes WebP, separates approximate Etna raster color classes and records SHA-256 checksums. Build exports `app/data/sources.ts` to `public/research/sources.json` before prerendering. No flow boundaries or elevation samples are synthesized.
 
 ## Scientific and asset boundaries
 
-The original art is conceptual. It is **not** satellite imagery, measured topography, live volcanic activity, a dated georeferenced comparison or a hazard model. Historical text and source links are retained from V02, with explanatory limits visible in each instrument. External agency links do not imply an asset license; no external scientific imagery or dataset has been imported.
+Original V02 terrain illustrations remain conceptual. Measured elevation, mapped deposits, dated satellite observations, historical accounts and explanatory drawings carry explicit labels. The archived USGS summit DEM has mixed observation epochs and is not a 2018 terrain comparison. St. Helens’s silhouette, the plate-boundary diagram, Vesuvius’s layer thicknesses and subsurface internals are interpretive. No non-commercial scientific media is redistributed.
 
-The supplied archive remains in `Designs/NOT_YET_LAND_V02_full_design.zip`. Its original artwork provenance statement is recorded in the [reference audit](docs/REFERENCE_AUDIT.md). The Noto font copyright and OFL text are included at `public/fonts/NOTO-LICENSE.txt`; that license applies to the font files, not the supplied artwork or this repository as a whole.
+The supplied archive remains in `Designs/NOT_YET_LAND_V02_full_design.zip`; its artwork provenance is recorded in the [reference audit](docs/REFERENCE_AUDIT.md). The Noto font OFL is included at `public/fonts/NOTO-LICENSE.txt`. Scientific media retains its separate source-specific rights; none of those licenses imply a license for the whole repository.
 
-Read [implementation status](docs/IMPLEMENTATION_REPORT.md) and [dependency compatibility](docs/DEPENDENCIES.md) for verification evidence and the Phase 2 boundary.
+The original [foundation report](docs/IMPLEMENTATION_REPORT.md) is historical. Current expedition scope and verification are in [the research report](docs/EXPEDITION_RESEARCH.md). Dependency decisions are documented in [compatibility notes](docs/DEPENDENCIES.md).
